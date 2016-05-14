@@ -93,11 +93,11 @@ class SQL
      */
     public function select_count($field, $table, $where = '')
     {
-        $query = mysqli_query($this->link, 'SELECT COUNT('.$field.') FROM '.$table.' '.$where);
+        $query = mysqli_query($this->link, 'SELECT COUNT('.$field.') as count FROM '.$table.' '.$where);
 
         $this->checkError($query);
 
-        $result = mysqli_result($query, 0);
+        $result = $query->fetch_assoc()['count'];
 
         return $result;
     }

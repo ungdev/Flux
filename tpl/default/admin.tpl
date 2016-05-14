@@ -1,12 +1,12 @@
 <?php
 
 /*
- * 
+ *
  * Auteur : Reivax <bernard.xav@gmail.com>
  * Modification : 09/05/09 par SoX
- * 
+ *
  * Description : Template de l'administration
- * 
+ *
  */
 
 //structure de la page
@@ -47,7 +47,7 @@ if(($login->testDroit('superadmin') OR $login->testDroit('admin_espaces') OR $lo
 <?php } ?>
 	  <div id="onglet_chat" class="off onglet"><h1><a id="a_onglet_chat" href="" title="Chat">Chat</a></h1></div>
 
-	  <div id="corps">	  
+	  <div id="corps">
         <div id="fenetre_chat">
           <div id="div_messages">Selectionner qurlzz</div>
           <form id="form_chat" method="POST" action="" autocomplete="off">
@@ -56,7 +56,7 @@ if(($login->testDroit('superadmin') OR $login->testDroit('admin_espaces') OR $lo
             <div style="display:none;"><input id="submit_form" type="submit" value="Envoyer" /></div>
           </form>
 	    </div>
-	  
+
 	    <div id="contenu">
 	      <h2>Bonjour et bienvenue sur l'administration du Flux Manager.</h2><br />
 		  <p>Cliquez sur un des onglets ci-dessus pour commencer.</p><br />
