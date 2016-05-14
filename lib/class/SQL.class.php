@@ -48,7 +48,6 @@ class SQL
     public function select($field, $table, $where = '')
     {
         $query = mysqli_query($this->link, 'SELECT '.$field.' FROM '.$table.' '.$where);
-        echo 'SELECT '.$field.' FROM '.$table.' '.$where.'<br/>';
         $this->checkError($query);
 
         // Si jamais la requête n'a rien retourné, on renvoie 0.
