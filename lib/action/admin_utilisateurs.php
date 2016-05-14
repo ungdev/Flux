@@ -22,6 +22,7 @@ elseif(isset($_GET['action']) AND $_GET['action'] == 'supprimer_utilisateur')
 }
 elseif(isset($_GET['action']) AND $_GET['action'] == 'modifier_utilisateur')
 {
+	echo 'allo';
 	$ValueEx = $admin->modifier_utilisateur($_GET['id']);
 }
 elseif(isset($_GET['action']) AND $_GET['action'] == 'supprimer_droit')
@@ -29,7 +30,7 @@ elseif(isset($_GET['action']) AND $_GET['action'] == 'supprimer_droit')
 	$ValueEx = $admin->supprimer_droit($_GET['id']);
 }
 ?>
-<?php $admin->header() 
+<?php $admin->header();
 
 ?>
 

@@ -33,8 +33,8 @@ elseif(isset($_GET['action']) AND $_GET['action'] == 'modifier_type_stock')
   <input type="text" name="valeur_achat" value="<?php  echo $Value['valeur_achat'];?>" onFocus="if(this.value=='Val. achat (ex: 87.12)'){this.value=''};" onBlur="if(this.value==''){this.value='Val. achat (ex: 87.12)'};" />
   <input type="text" name="valeur_vente" value="<?php echo $Value['valeur_vente'];;?>" onFocus="if(this.value=='Val. vente (ex: 100.00)'){this.value=''};" onBlur="if(this.value==''){this.value='Val. vente (ex: 100.00)'};" />
   <input type="text" name="combien" value="<?php echo $Value['combien']; ?>" onFocus="if(this.value=='Combien (ex: 40)'){this.value=''};" onBlur="if(this.value==''){this.value='Combien (ex: 40)'};
-<?}
-else {
+<?php
+} else {
 ?>  <h1>Ajouter :</h1>
   <input type="text" name="nom" value="Nom (ex: Champagne)" onFocus="if(this.value=='Nom (ex: Champagne)'){this.value=''};" onBlur="if(this.value==''){this.value='Nom (ex: Champagne)'};" />
   <input type="text" name="reference" value="Référence (ex: CH)" onFocus="if(this.value=='Référence (ex: CH)'){this.value=''};" onBlur="if(this.value==''){this.value='Référence (ex: CH)'};" />

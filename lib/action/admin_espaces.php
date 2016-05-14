@@ -27,8 +27,8 @@ elseif(isset($_GET['action']) AND $_GET['action'] == 'modifier_espace')
 ?>  <h1>Modifier :</h1>
   <input type="text" name="nom" value="<?php  echo $Value['nom'];?>" onfocus="if(this.value=='Nom de l\'EàT'){this.value=''};" onBlur="if(this.value==''){this.value='Nom de l\'EàT'};" />
   <input type="text" name="lieu" value="<?php echo $Value['lieu']; ?>" onfocus="if(this.value=='Lieu'){this.value=''};" onBlur="if(this.value==''){this.value='Lieu'};
-<?}
-else {
+<?php
+} else {
 ?>  <h1>Ajouter :</h1>
   <input type="text" name="nom" value="Nom de l'EàT" onfocus="if(this.value=='Nom de l\'EàT'){this.value=''};" onBlur="if(this.value==''){this.value='Nom de l\'EàT'};" />
   <input type="text" name="lieu" value="Lieu" onfocus="if(this.value=='Lieu'){this.value=''};" onBlur="if(this.value==''){this.value='Lieu'};
