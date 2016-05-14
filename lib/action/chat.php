@@ -4,7 +4,9 @@ $chat = new Chat();
 
 //si on vient du form
 if (array_key_exists('text_chat', $_POST)) {
-    $chat->enregistrer_message($_GET['liste'], $_GET['id']);
+    $liste = (isset($_GET['liste']))?$_GET['liste']:'';
+    $id = (isset($_GET['id']))?$_GET['id']:'';
+    $chat->enregistrer_message($liste, $id);
 }
 
 // On évite d'afficher une erreur de type notice suite à un éventuel switch sur

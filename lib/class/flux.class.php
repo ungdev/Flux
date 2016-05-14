@@ -124,11 +124,11 @@
       }
         // je recupere id_type_stock de $id
         $result1 = $this->sql->query('SELECT id_type_stock FROM stock WHERE id='.$id);
-      $req1 = mysql_fetch_array($result1);
+      $req1 = $result1->fetch_array();
       $id_type_stock = $req1[0];
         // je compte le nombre de fut plein correspondant au $id_type_stock pour $id_espace
         $result3 = $this->sql->query('SELECT COUNT(*) as nb FROM stock LEFT JOIN parcours ON (parcours.id_stock = stock.id) LEFT JOIN espace ON (parcours.id_espace = espace.id) WHERE id_type_stock='.$id_type_stock.' AND id_espace = '.$id_espace.' AND entame = 0 GROUP BY entame');
-      $req3 = mysql_fetch_array($result3);
+      $req3 = $result3->fetch_array();
       if (empty($req3)) {
           $req3 = 0;
       }
@@ -136,7 +136,7 @@
         //si c'est le dernier fut je retourne une alerte
 //  public function prob_niveau($id, $id_type, $gravite, $sens = 1)
         $result = $this->sql->query('SELECT liste_prob.id as id, liste_prob.id_type_prob as type_prob, gravite FROM type_prob LEFT JOIN liste_prob ON (type_prob.id = liste_prob.id_type_prob) WHERE id_cat_prob = 0 AND lien = '.$id_type_stock.' AND id_espace = '.$id_espace);
-      $req4 = mysql_fetch_array($result);
+      $req4 = $result->fetch_array();
       if (!empty($req4)) {
           $prob = new problemes();
           if ($nb_plein == 1) {
