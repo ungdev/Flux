@@ -53,7 +53,7 @@ if(($login->testDroit('superadmin') OR $login->testDroit('admin_espaces') OR $lo
           <form id="form_chat" method="POST" action="" autocomplete="off">
           	<input type="text" id="text_chat_admin" name="text_chat" />
             <!--<textarea id="text_chat_admin" name="text_chat"></textarea>-->
-            <div style="display:none;"><input id="submit_form" type="submit" value="Envoyer" /></div>
+            <div style="display:none"><input id="submit_form" type="submit" value="Envoyer" /></div>
           </form>
 	    </div>
 	  
