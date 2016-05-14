@@ -9,7 +9,7 @@
  *
  */
 
-class chat
+class Chat
 {
     private $droit;
     private $id_droit;
