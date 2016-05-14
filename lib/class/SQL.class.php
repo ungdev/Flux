@@ -13,6 +13,7 @@ class SQL
         global $config;
 
         $this->link = mysqli_connect($config['database']['host'], $config['database']['user'], $config['database']['pass']);
+        mysqli_set_charset($this->link, 'utf8');
 
         if (!$this->link) {
             die('Impossible de se connecter à la base de données: '.($this->link ? mysqli_error($this->link) : (($err = mysqli_connect_error()) ? $err : false)));
