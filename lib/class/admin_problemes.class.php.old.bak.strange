@@ -29,9 +29,9 @@ class admin_problemes
 	echo '<div id="h_pb_load"></div>';
     	global $login;
 	if ($login->testDroit('secutt')){
-		$probs = $this->sql->select("espace.id as id_espace, espace.nom as nom_espace, espace.lieu, type_prob.nom,type_prob.id as prob_type_id, liste_prob.gravite, liste_prob.auteur, liste_prob.id as prob_id", '(`liste_prob` INNER JOIN type_prob ON liste_prob.id_type_prob = type_prob.id) INNER JOIN espace ON liste_prob.id_espace = espace.id', 'WHERE gravite >= 1 AND type_prob.id=15');
+		$probs = $this->sql->select("espace.id as id_espace, espace.nom as nom_espace, espace.lieu, type_prob.nom, liste_prob.gravite, liste_prob.auteur, liste_prob.id as prob_id", '(`liste_prob` INNER JOIN type_prob ON liste_prob.id_type_prob = type_prob.id) INNER JOIN espace ON liste_prob.id_espace = espace.id', 'WHERE gravite >= 1 AND type_prob.id=15');
 	}else{
-		$probs = $this->sql->select("espace.id as id_espace, espace.nom as nom_espace, espace.lieu, type_prob.nom,type_prob.id as probi_type_id, liste_prob.gravite, liste_prob.auteur, liste_prob.id as prob_id", '(`liste_prob` INNER JOIN type_prob ON liste_prob.id_type_prob = type_prob.id) INNER JOIN espace ON liste_prob.id_espace = espace.id', 'WHERE gravite >= 1');
+		$probs = $this->sql->select("espace.id as id_espace, espace.nom as nom_espace, espace.lieu, type_prob.nom, liste_prob.gravite, liste_prob.auteur, liste_prob.id as prob_id", '(`liste_prob` INNER JOIN type_prob ON liste_prob.id_type_prob = type_prob.id) INNER JOIN espace ON liste_prob.id_espace = espace.id', 'WHERE gravite >= 1');
 	}
 
 
@@ -42,7 +42,6 @@ class admin_problemes
 		</table>
 <?php
 	}elseif (is_array($probs)){
-		$prec="";
 		foreach ($probs as $prob){
 ?><table><?php
   			if($prec != $prob['nom_espace']){ ?>
@@ -70,22 +69,31 @@ class admin_problemes
   private function valeur_problemes ($id, $prob){
 	if ($prob['id_espace'] === $id){ ?>
 		<tr>
-			<td><form method="post" action="/admin?action=prob">
+			<td><form method="post" action="?action=prob">
 <?php	  	switch ($prob['gravite']){
 			case 1: ?>
 				<div class="liste_probleme moyen admin">
-	  				<input name="nom" value="<?php echo $prob['nom']; ?>" type="button" onclick="document.location.href = '/admin?action=aprob&id=<?php echo $prob['prob_id'].'&id_type='.$prob['probi_type_id'].'&gravite='.$prob['gravite'] ;?>';" />
+     					<input type="hidden" name="id" value="<?php echo $prob['id']; ?>" />
+      					<input type="hidden" name="id_type" value="<?php echo $prob['id_type_prob']; ?>" />
+      					<input type="hidden" name="gravite" value="<?php echo $prob['gravite']; ?>" />
+	  				<input name="nom" value="<?php echo $prob['nom']; ?>" type="submit" />
+	 				<div class="virgule"><a href="?action=aprob&id=<?php echo $prob['id'].'&id_type='.$prob['id_type_prob'].'&gravite='.$prob['gravite'] ;?>" title="Valider"></a></div>
 				</div>
 <?php   			break;
 			case 2: ?>
 				<div class="liste_probleme grave admin">
-					<input name="nom" value="<?php echo $prob['nom']; ?>" type="button" onclick="document.location.href = '/admin?action=aprob&id=<?php echo $prob['prob_id'].'&id_type='.$prob['probi_type_id'].'&gravite='.$prob['gravite'] ;?>';" />
+					<input value="<?php echo $prob['nom']; ?>" type="button" />
+<!-- 					<div class="virgule"><a href="?action=aprob&id=<?php echo $prob['id'].'&id_type='.$prob['id_type_prob'].'&gravite='.$prob['gravite'] ;?>" title="Valilder"></a></div>-->
 				</div>
 <?php          			break;
 
           		default: ?>
 				<div class="liste_probleme admin">
-					<input name="nom" value="<?php echo $prob['nom']; ?>" type="button" onclick="document.location.href = '/admin?action=aprob&id=<?php echo $prob['prob_id'].'&id_type='.$prob['probi_type_id'].'&gravite='.$prob['gravite'] ;?>';" />
+					<input type="hidden" name="id" value="<?php echo $prob['id']; ?>" />
+					<input type="hidden" name="id_type" value="<?php echo $prob['id_type_prob']; ?>" />
+					<input type="hidden" name="gravite" value="<?php echo $prob['gravite']; ?>" />
+					<input name="nom" value="<?php echo $prob['nom']; ?>" type="submit" />
+<!--					<div class="fleche"><a href="?action=aprob&id=<?php echo $stock['id'];?>" title="Annuler la résolution"></a></div>-->
 				</div>
 <?php      }?>
   			</form></td>

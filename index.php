@@ -11,7 +11,7 @@ require_once 'lib/conf/config.php';
 
 function __autoload($className) {
     global $config;
-    require_once $config['libServer'].'/class/'.$className.'.class';
+    require_once $config['libServer'].'/class/'.$className.'.class.php';
 }
 
 if(file_exists($config['libServer'].'/action/'.$_GET['page'].'.php')) {

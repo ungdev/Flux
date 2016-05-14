@@ -1,13 +1,13 @@
 <?php
 /*
- * 
+ *
  * Auteur : SoX <flosox@gmail.com>
  * Modification : 11/05/09 par SoX
- * 
+ *
  * Description : Tout ce dont on a besoin pour l'onglet problemes
- * 
+ *
  */
- 
+
 class admin_problemes
 {
 
@@ -24,14 +24,14 @@ class admin_problemes
   {
     unset($this->sql);
   }
-  
+
   public function liste(){
 	echo '<div id="h_pb_load"></div>';
     	global $login;
 	if ($login->testDroit('secutt')){
-		$probs = $this->sql->select("espace.id as id_espace, espace.nom as nom_espace, espace.lieu, type_prob.nom, liste_prob.gravite, liste_prob.auteur, liste_prob.id as prob_id", '(`liste_prob` INNER JOIN type_prob ON liste_prob.id_type_prob = type_prob.id) INNER JOIN espace ON liste_prob.id_espace = espace.id', 'WHERE gravite >= 1 AND type_prob.id=15');
+		$probs = $this->sql->select("espace.id as id_espace, espace.nom as nom_espace, espace.lieu, type_prob.nom,type_prob.id as prob_type_id, liste_prob.gravite, liste_prob.auteur, liste_prob.id as prob_id", '(`liste_prob` INNER JOIN type_prob ON liste_prob.id_type_prob = type_prob.id) INNER JOIN espace ON liste_prob.id_espace = espace.id', 'WHERE gravite >= 1 AND type_prob.id=15');
 	}else{
-		$probs = $this->sql->select("espace.id as id_espace, espace.nom as nom_espace, espace.lieu, type_prob.nom, liste_prob.gravite, liste_prob.auteur, liste_prob.id as prob_id", '(`liste_prob` INNER JOIN type_prob ON liste_prob.id_type_prob = type_prob.id) INNER JOIN espace ON liste_prob.id_espace = espace.id', 'WHERE gravite >= 1');
+		$probs = $this->sql->select("espace.id as id_espace, espace.nom as nom_espace, espace.lieu, type_prob.nom,type_prob.id as probi_type_id, liste_prob.gravite, liste_prob.auteur, liste_prob.id as prob_id", '(`liste_prob` INNER JOIN type_prob ON liste_prob.id_type_prob = type_prob.id) INNER JOIN espace ON liste_prob.id_espace = espace.id', 'WHERE gravite >= 1');
 	}
 
 
@@ -42,6 +42,7 @@ class admin_problemes
 		</table>
 <?php
 	}elseif (is_array($probs)){
+		$prec="";
 		foreach ($probs as $prob){
 ?><table><?php
   			if($prec != $prob['nom_espace']){ ?>
@@ -51,13 +52,13 @@ class admin_problemes
 					$prec = $prob['nom_espace'];
 			}
 ?></table><?php
-      		}		
+      		}
 	}else{ ?>
 		<h2>Il n'y a actuellement aucun problème signalé.</h2>
 <?php	}?>
 	</table>
 <?php  }
-  
+
   private function liste_problemes($id, $probs)
   {
     foreach ($probs as $prob)
@@ -69,31 +70,22 @@ class admin_problemes
   private function valeur_problemes ($id, $prob){
 	if ($prob['id_espace'] === $id){ ?>
 		<tr>
-			<td><form method="post" action="?action=prob">
+			<td><form method="post" action="/admin?action=prob">
 <?php	  	switch ($prob['gravite']){
 			case 1: ?>
 				<div class="liste_probleme moyen admin">
-     					<input type="hidden" name="id" value="<?php echo $prob['id']; ?>" />
-      					<input type="hidden" name="id_type" value="<?php echo $prob['id_type_prob']; ?>" />
-      					<input type="hidden" name="gravite" value="<?php echo $prob['gravite']; ?>" />
-	  				<input name="nom" value="<?php echo $prob['nom']; ?>" type="submit" />
-	 				<div class="virgule"><a href="?action=aprob&id=<?php echo $prob['id'].'&id_type='.$prob['id_type_prob'].'&gravite='.$prob['gravite'] ;?>" title="Valider"></a></div>
+	  				<input name="nom" value="<?php echo $prob['nom']; ?>" type="button" onclick="document.location.href = '/admin?action=aprob&id=<?php echo $prob['prob_id'].'&id_type='.$prob['probi_type_id'].'&gravite='.$prob['gravite'] ;?>';" />
 				</div>
 <?php   			break;
 			case 2: ?>
 				<div class="liste_probleme grave admin">
-					<input value="<?php echo $prob['nom']; ?>" type="button" />
-<!-- 					<div class="virgule"><a href="?action=aprob&id=<?php echo $prob['id'].'&id_type='.$prob['id_type_prob'].'&gravite='.$prob['gravite'] ;?>" title="Valilder"></a></div>-->
+					<input name="nom" value="<?php echo $prob['nom']; ?>" type="button" onclick="document.location.href = '/admin?action=aprob&id=<?php echo $prob['prob_id'].'&id_type='.$prob['probi_type_id'].'&gravite='.$prob['gravite'] ;?>';" />
 				</div>
 <?php          			break;
 
           		default: ?>
 				<div class="liste_probleme admin">
-					<input type="hidden" name="id" value="<?php echo $prob['id']; ?>" />
-					<input type="hidden" name="id_type" value="<?php echo $prob['id_type_prob']; ?>" />
-					<input type="hidden" name="gravite" value="<?php echo $prob['gravite']; ?>" />
-					<input name="nom" value="<?php echo $prob['nom']; ?>" type="submit" />
-<!--					<div class="fleche"><a href="?action=aprob&id=<?php echo $stock['id'];?>" title="Annuler la résolution"></a></div>-->
+					<input name="nom" value="<?php echo $prob['nom']; ?>" type="button" onclick="document.location.href = '/admin?action=aprob&id=<?php echo $prob['prob_id'].'&id_type='.$prob['probi_type_id'].'&gravite='.$prob['gravite'] ;?>';" />
 				</div>
 <?php      }?>
   			</form></td>
@@ -101,7 +93,7 @@ class admin_problemes
 			</tr>
 <?php   }
   }
-  
+
   private function charge_problemes ($id, $auteur) {?>
 	<td>
 		<form id="form_problemes_admin_<?php echo $id ?>" class="form_problemes_admin" method="post" action="admin_problemes">
@@ -109,7 +101,7 @@ class admin_problemes
 <?php if ($auteur) {
 ?>  			<input class="input_form_problemes" type="text" name="auteur" value="<?php  echo $auteur;
 }else {
-?> 		 	<input class="input_form_problemes" type="text" name="auteur" value="Personne	
+?> 		 	<input class="input_form_problemes" type="text" name="auteur" value="Personne
 <?php }
 ?>" onfocus="if(this.value=='Personne'){this.value=''};" onBlur="if(this.value==''){this.value='Personne'};" />
 			<input type="hidden" name="id" value="<?php echo $id ?>" />
