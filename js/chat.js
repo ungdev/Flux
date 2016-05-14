@@ -146,7 +146,7 @@ window.addEvent('domready', function(){
                 });
                 $('div_messages').load(item.get('href'));
 
-                memo_nom = item.get('text');
+                memo_nom = item.get('text').split(' - ')[0];
 
                 $('a_onglet_chat').set('text', 'Chat (' + memo_nom + ')');
 				 if ($chk($(memo_nom)))
