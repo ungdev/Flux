@@ -184,7 +184,7 @@ window.addEvent('domready', function(){
                 onComplete: function(reponse){
 					//if ($chk($(reponse)))
 					//{
-                    if (reponse.toSource() !== derniers_id.toSource()) {
+                    if (JSON.stringify(reponse) !== JSON.stringify(derniers_id)) {
                         //alert(reponse);
                         for (i in reponse) {
                             if (reponse[i] != derniers_id[i]) {

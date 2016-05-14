@@ -11,7 +11,7 @@
 
 //structure de la page
 $Css = Array('style', 'admin');
-$Js = Array('mootools', 'chat', 'administration');
+$Js = Array('mootools', 'chat', 'administration', 'json2');
 $NomPage = "Histobar";
 ?>
 

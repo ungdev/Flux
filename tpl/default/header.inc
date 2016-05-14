@@ -14,7 +14,8 @@ foreach($Css as $css)
 <?php }
 // Inclusion des pages JavaScript
 foreach($Js as $js)
-{ ?>
+{ 
+?>
     <script type="text/javascript" src="<?php echo $config['baseUrl']; ?>/js/<?php echo $js; ?>.js"></script>
 <?php }
 ?>
