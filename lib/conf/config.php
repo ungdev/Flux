@@ -13,5 +13,3 @@ $config['database']['host']  = 'localhost';
 $config['database']['base']  = 'fluxmanager';
 $config['database']['user']  = 'fluxmanager';
 $config['database']['pass']  = 'fluxmanagerestcon';
-
-?>
