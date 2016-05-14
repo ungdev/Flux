@@ -171,7 +171,7 @@ class admin_administration
 
         if (!is_numeric($exId)) {
             $this->sql->insert('espace', '`nom`, `lieu`, `id_type_espace`, `id_utilisateur`, `etat`', "'".$nom."', '".$lieu."', '".$type_espace."', '".$utilisateur."', '".$ouvert."'");
-            $id_espace = mysql_insert_id();
+            $id_espace = mysqli_insert_id($this->sql->link);
 
         //on chope tout les pb lié à rien du tout, et on les ajoute dans la table liste_prob
         $resultat = $this->sql->select('id', 'type_prob', 'WHERE lien = 0');
@@ -196,7 +196,7 @@ class admin_administration
 
         if (!is_numeric($exId)) {
             $this->sql->insert('type_stock', '`nom`, `reference`, `conditionnement`, `volume`, `valeur_achat`, `valeur_vente`, `unitaire`', "'".$nom."', '".$reference."', '".$conditionnement."', '".$volume."', '".$valeur_achat."', '".$valeur_vente."', '".$unitaire."'");
-            $id_type_stock = mysql_insert_id();
+            $id_type_stock = mysqli_insert_id($this->sql->link);
         } else {
             $this->sql->update('type_stock', "`nom` = '".$nom."', `reference` = '".$reference."', `conditionnement` = '".$conditionnement."', `volume` = '".$volume."', `valeur_achat` = '".$valeur_achat."', `valeur_vente` = '".$valeur_vente."', `unitaire` = '".$unitaire."'", '`id`='.$exId);
             $id_type_stock = $exId;
@@ -242,7 +242,7 @@ class admin_administration
     {
         if (!is_numeric($exId)) {
             $this->sql->insert('type_prob', '`nom`, `id_cat_prob`, `lien`', "'".$nom."', '".$id_cat_prob."', '".$lien."'");
-            $id_type_prob = mysql_insert_id();
+            $id_type_prob = mysqli_insert_id($this->sql->link);
         } else {
             $this->sql->update('type_prob', "`nom` = '".$nom."', `id_cat_prob` = '".$id_cat_prob."', `lien` = '".$lien."'", '`id`='.$exId);
             $id_type_prob = $exId;
