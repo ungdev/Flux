@@ -175,16 +175,16 @@ class Chat
         echo '<h2>Parler à une liste :</h2>';
 
         foreach ($droits as $value) {
-            echo '<div><a id="'.$value['nom'].'" class="choix_chat" href="chat&action=toliste&id='.$value['id'].'">'.$value['nom'].'</a></div>';
+            echo '<div><a id="'.$value['nom'].'" class="choix_chat" href="chat?action=toliste&id='.$value['id'].'">'.$value['nom'].'</a></div>';
         }
 
         echo '<h2>Parler seulement à un EAT :</h2>';
 
         foreach ($admins as $value) {
             if ($value['derniere_connexion'] > (time() - 80)) {
-                echo '<div id="div_de_'.$value['login'].'" class="online"><a id="'.$value['login'].'" class="choix_chat" href="chat&action=toqqn&id='.$value['id'].'">'.$value['login'].'</a></div>';
+                echo '<div id="div_de_'.$value['login'].'" class="online"><a id="'.$value['login'].'" class="choix_chat" href="chat?action=toqqn&id='.$value['id'].'">'.$value['login'].'</a></div>';
             } else {
-                echo '<div id="div_de_'.$value['login'].'" class="offline"><a id="'.$value['login'].'" class="choix_chat" href="chat&action=toqqn&id='.$value['id'].'">'.$value['login'].'<span id="span_de_'.$value['login'].'"></span></a></div>';
+                echo '<div id="div_de_'.$value['login'].'" class="offline"><a id="'.$value['login'].'" class="choix_chat" href="chat?action=toqqn&id='.$value['id'].'">'.$value['login'].'<span id="span_de_'.$value['login'].'"></span></a></div>';
             }
         }
     }
