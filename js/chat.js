@@ -145,14 +145,9 @@ window.addEvent('domready', function(){
                     }
                 });
                 $('div_messages').load(item.get('href'));
-                
-                var reg = '^chat&action=(.*)&id=(.*)$';
-                var x = new RegExp(reg);
-                var resultat = x.exec(item.get('href'));
-                
-                memo_liste = resultat[1];
-                memo_id = resultat[2];
+
                 memo_nom = item.get('text');
+
                 $('a_onglet_chat').set('text', 'Chat (' + memo_nom + ')');
 				 if ($chk($(memo_nom)))
 				 {
