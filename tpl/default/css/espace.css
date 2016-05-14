@@ -1,0 +1,87 @@
+div#probleme {
+	float: left;
+	width: 20%;
+	min-width: 158px;
+	background:#FFFFFF url(../images/cadre_fluxmanager.png) no-repeat scroll right top;
+	margin:3px;
+	padding:0;
+}
+div#delestage {
+	background:#FFFFFF url(../images/cadre_fluxmanager.png) no-repeat scroll right top;
+	margin:3px;
+	padding-top:1px;
+}
+div#bloc_delestage {
+	margin:3px;
+	text-align:center;
+	padding:0;
+	visibility:hidden;
+}
+div#bloc_delestage input{
+	margin: 2px;
+}
+div.bloc_flux {
+	width: 100%;
+}
+div.liste_probleme {
+	margin: 10px;
+	text-align:center;
+	min-width: 170px;
+}
+div#flux {
+	margin: auto;
+	width: 58%;
+	min-width: 458px;
+/*	background:#FFFFFF url(/tpl/default/images/itenmenucontainer.gif) no-repeat scroll right top;*/
+	margin:auto;
+	margin-top:3px;
+	padding: 2px 1px 1px;
+}
+div#chat {
+	float: right;
+	width: 20%;
+	min-width: 158px;
+	background:#FFFFFF url(../images/cadre_fluxmanager.png) no-repeat scroll left top;
+	margin:3px;
+	padding:0;
+}
+div#chat #bloc_chat {
+	position: relative;
+}
+div#chat #bloc_chat #texte_chat {
+	height:500px;
+	margin:5px auto;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	width:90%;
+	padding:5px;
+}
+div#chat #bloc_chat #texte_chat ul {
+	margin-left: 0px;
+	font-size: 1.3em;
+	padding-left:0;
+	line-height:1;
+}
+div#chat #bloc_chat #texte_chat ul li {
+	margin-bottom:5px;
+}
+div#chat #bloc_chat #form_chat {
+	display: block;
+	width:95%;
+	margin:auto;
+	text-align:center;
+}
+div#chat #bloc_chat #form_chat textarea {
+	font-size:1.5em;
+	height:80px;
+	margin:5px;
+}
+div#chat #bloc_chat #form_chat #text_chat {
+	display: block;
+	width: 95%;
+	margin: auto;
+	margin-bottom: 5px;
+	font-size: 1.5em;
+	padding: 3px;
+	
+}
