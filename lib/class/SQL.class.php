@@ -46,8 +46,8 @@ class SQL
      */
     public function select($field, $table, $where = '')
     {
-        $query = mysqli_query($this->link, 'SELECT '.$field.' FROM `'.$table.'` '.$where);
-
+        $query = mysqli_query($this->link, 'SELECT '.$field.' FROM '.$table.' '.$where);
+        echo 'SELECT '.$field.' FROM '.$table.' '.$where.'<br/>';
         $this->checkError($query);
 
         // Si jamais la requête n'a rien retourné, on renvoie 0.
@@ -93,7 +93,7 @@ class SQL
      */
     public function select_count($field, $table, $where = '')
     {
-        $query = mysqli_query($this->link, 'SELECT COUNT('.$field.') FROM `'.$table.'` '.$where);
+        $query = mysqli_query($this->link, 'SELECT COUNT('.$field.') FROM '.$table.' '.$where);
 
         $this->checkError($query);
 
@@ -111,7 +111,7 @@ class SQL
      */
     public function insert($table, $field, $values)
     {
-        $query = mysqli_query($this->link, 'INSERT INTO `'.$table.'` ('.$field.') VALUES ('.$values.')');
+        $query = mysqli_query($this->link, 'INSERT INTO '.$table.' ('.$field.') VALUES ('.$values.')');
 
         $this->checkError($query);
     }
@@ -125,7 +125,7 @@ class SQL
      */
     public function update($table, $newValue, $where)
     {
-        $query = mysqli_query($this->link, 'UPDATE `'.$table.'` SET '.$newValue.' WHERE '.$where);
+        $query = mysqli_query($this->link, 'UPDATE '.$table.' SET '.$newValue.' WHERE '.$where);
 
         $this->checkError($query);
     }
@@ -138,7 +138,7 @@ class SQL
      */
     public function delete($table, $where)
     {
-        $query = mysqli_query($this->link, 'DELETE FROM `'.$table.'` WHERE '.$where);
+        $query = mysqli_query($this->link, 'DELETE FROM '.$table.' WHERE '.$where);
 
         $this->checkError($query);
     }
@@ -171,4 +171,3 @@ class SQL
         }
     }
 }
-

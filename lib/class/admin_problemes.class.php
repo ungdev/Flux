@@ -29,9 +29,9 @@ class admin_problemes
 	echo '<div id="h_pb_load"></div>';
     	global $login;
 	if ($login->testDroit('secutt')){
-		$probs = $this->sql->select("espace.id as id_espace, espace.nom as nom_espace, espace.lieu, type_prob.nom,type_prob.id as prob_type_id, liste_prob.gravite, liste_prob.auteur, liste_prob.id as prob_id", '(`liste_prob` INNER JOIN type_prob ON liste_prob.id_type_prob = type_prob.id) INNER JOIN espace ON liste_prob.id_espace = espace.id', 'WHERE gravite >= 1 AND type_prob.id=15');
+		$probs = $this->sql->select("espace.id as id_espace, espace.nom as nom_espace, espace.lieu, type_prob.nom,type_prob.id as prob_type_id, liste_prob.gravite, liste_prob.auteur, liste_prob.id as prob_id", '`liste_prob` INNER JOIN type_prob ON liste_prob.id_type_prob = type_prob.id INNER JOIN espace ON liste_prob.id_espace = espace.id', 'WHERE gravite >= 1 AND type_prob.id=15');
 	}else{
-		$probs = $this->sql->select("espace.id as id_espace, espace.nom as nom_espace, espace.lieu, type_prob.nom,type_prob.id as probi_type_id, liste_prob.gravite, liste_prob.auteur, liste_prob.id as prob_id", '(`liste_prob` INNER JOIN type_prob ON liste_prob.id_type_prob = type_prob.id) INNER JOIN espace ON liste_prob.id_espace = espace.id', 'WHERE gravite >= 1');
+		$probs = $this->sql->select("espace.id as id_espace, espace.nom as nom_espace, espace.lieu, type_prob.nom,type_prob.id as probi_type_id, liste_prob.gravite, liste_prob.auteur, liste_prob.id as prob_id", '`liste_prob` INNER JOIN type_prob ON liste_prob.id_type_prob = type_prob.id INNER JOIN espace ON liste_prob.id_espace = espace.id', 'WHERE gravite >= 1');
 	}
 
 
