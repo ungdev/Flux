@@ -22,10 +22,11 @@ RewriteRule ^(.*)$ ?page=$1 [L,QSA]
 **PAS DE CACHE SUR LES RESSOURCES**.
 
 ```
-location / {
-  rewrite ^/$ /index.php?page=login break;
-  if (!-e $request_filename){
-    rewrite ^(.*)$ /index.php?page=$1 break;
-  }
-}
+    location ~ ^/([A-z_]+)$ {
+        try_files $uri /index.php?page=$1&$args;
+    }
+
+    location / {
+        try_files $uri /index.php?&args;
+    }
 ```
