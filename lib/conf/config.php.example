@@ -10,6 +10,6 @@ $config['tplServer']  = $config['baseServer'] .'/tpl/default';     // [basic] Te
 
 $config['database']['type']  = 'mysql';
 $config['database']['host']  = 'localhost';
-$config['database']['base']  = 'fluxmanager';
-$config['database']['user']  = 'fluxmanager';
-$config['database']['pass']  = 'fluxmanagerestcon';
+$config['database']['base']  = 'flux';
+$config['database']['user']  = 'flux';
+$config['database']['pass']  = '';
