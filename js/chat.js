@@ -11,7 +11,7 @@ window.addEvent('domready', function(){
             onComplete: function(reponse){
                 dernier_id = reponse.id;
                 
-                //puis on fait la fonction en boucle	
+                //puis on fait la fonction en boucle    
                 var refreshChat = function(){
                     var jsonRequest = new Request.JSON({
                         url: "chat?action=id_dernier_message",
@@ -24,7 +24,7 @@ window.addEvent('domready', function(){
                     }).send();
                 };
                 refreshChat();
-                refreshChat.periodical(5000); //5 seconces			
+                refreshChat.periodical(5000); //5 seconces          
             }
         }).send();
         
@@ -68,27 +68,27 @@ window.addEvent('domready', function(){
         $('text_chat').addEvent('click', function(event){
             $('text_chat').setStyle('background', 'white');
         });
-		
-			var tjs_connecte = function(){
-	        var myRequest = new Request({
-	            method: 'get',
-	            url: 'chat?action=rappel_connexion'
-	        });
-	        myRequest.send();
-	    };
-	    
-	    tjs_connecte();
-	    tjs_connecte.periodical(10000);
-		
-		//et enfin, le truc de délestage
-		 $('h1_delestage').addEvent('click', function(event){
-		 	if($('bloc_delestage').getStyle('visibility') == 'visible')
-				$('bloc_delestage').setStyle('visibility', 'hidden');
-			else if($('bloc_delestage').getStyle('visibility') == 'hidden')
-				$('bloc_delestage').setStyle('visibility', 'visible');
+        
+            var tjs_connecte = function(){
+            var myRequest = new Request({
+                method: 'get',
+                url: 'chat?action=rappel_connexion'
+            });
+            myRequest.send();
+        };
+        
+        tjs_connecte();
+        tjs_connecte.periodical(10000);
+        
+        //et enfin, le truc de délestage
+         $('h1_delestage').addEvent('click', function(event){
+            if($('bloc_delestage').getStyle('visibility') == 'visible')
+                $('bloc_delestage').setStyle('visibility', 'hidden');
+            else if($('bloc_delestage').getStyle('visibility') == 'hidden')
+                $('bloc_delestage').setStyle('visibility', 'visible');
         });
-		
-		$('text_chat').focus();
+        
+        $('text_chat').focus();
 
     }
     
@@ -101,26 +101,26 @@ window.addEvent('domready', function(){
         var memo_id;
         var derniers_id;
         var memo_nom;
-		
-		/* idées de needle pour fermer le chat qd on sort du focus
+        
+        /* idées de needle pour fermer le chat qd on sort du focus
         $('fenetre_chat').addEvent('click', function(event){
-			event.stopPropagation();
-		});
-		
-		
-		document.body.addEvent('click', function(event){
-			if ($('onglet_chat').get('class') == 'info onglet') {
+            event.stopPropagation();
+        });
+        
+        
+        document.body.addEvent('click', function(event){
+            if ($('onglet_chat').get('class') == 'info onglet') {
                 $('fenetre_chat').setStyle('visibility', 'hidden');
                 $('onglet_chat').set('class', 'off onglet');
             }
             else 
-			{
+            {
                 $('fenetre_chat').setStyle('visibility', 'visible');
                 $('onglet_chat').set('class', 'info onglet');
             }
-		});
-		*/
-		
+        });
+        */
+        
         //on ajoute des event sur tous les boutons...
         Liens = $$('.choix_chat');
         
@@ -131,12 +131,12 @@ window.addEvent('domready', function(){
                 $('onglet_chat').set('class', 'info onglet');
                 $('onglet_chat').setStyle('visibility', 'visible');
                 $('text_chat_admin').focus();
-				
-				$('text_chat_admin').addEvent('blur', function(event){
-					$('fenetre_chat').setStyle('visibility', 'hidden');
-         			$('onglet_chat').set('class', 'off onglet');
-				});
-				
+                
+                $('text_chat_admin').addEvent('blur', function(event){
+                    $('fenetre_chat').setStyle('visibility', 'hidden');
+                    $('onglet_chat').set('class', 'off onglet');
+                });
+                
                 $('div_messages').empty();
                 //on charge dedans le truc correspondant
                 $('div_messages').set('load', {
@@ -146,14 +146,21 @@ window.addEvent('domready', function(){
                 });
                 $('div_messages').load(item.get('href'));
 
+                var reg = '^action=(.*)&id=(.*)$';
+                var infos = item.get('href').split('?')[1];
+                var x = new RegExp(reg);
+                var resultat = x.exec(infos);
+                
+                memo_liste = resultat[1];
+                memo_id = resultat[2];
                 memo_nom = item.get('text').split(' - ')[0];
 
                 $('a_onglet_chat').set('text', 'Chat (' + memo_nom + ')');
-				 if ($chk($(memo_nom)))
-				 {
-				 	$(memo_nom).setStyle('text-decoration', 'none');
-                	$(memo_nom).setStyle('color', 'white');
-				 }
+                 if ($chk($(memo_nom)))
+                 {
+                    $(memo_nom).setStyle('text-decoration', 'none');
+                    $(memo_nom).setStyle('color', 'white');
+                 }
                 
             });
         });
@@ -165,16 +172,16 @@ window.addEvent('domready', function(){
          $('onglet_chat').set('class', 'off onglet');
          });
          */
-		
+        
         //on vérifie si il y a du nouveau message
         //on chope une première fois les ids
         var jsonRequest = new Request.JSON({
             url: "chat?action=id_dernier_message",
             onComplete: function(reponse){
                 derniers_id = reponse;
-                //puis on fait la fonction en boucle	
+                //puis on fait la fonction en boucle    
                 refreshChatAdmin();
-                refreshChatAdmin.periodical(5000); //5 seconces			
+                refreshChatAdmin.periodical(5000); //5 seconces         
             }
         }).send();
         
@@ -182,8 +189,8 @@ window.addEvent('domready', function(){
             var jsonRequest = new Request.JSON({
                 url: "chat?action=id_dernier_message",
                 onComplete: function(reponse){
-					//if ($chk($(reponse)))
-					//{
+                    //if ($chk($(reponse)))
+                    //{
                     if (JSON.stringify(reponse) !== JSON.stringify(derniers_id)) {
                         //alert(reponse);
                         for (i in reponse) {
@@ -200,7 +207,7 @@ window.addEvent('domready', function(){
                         derniers_id = reponse;
                         rechargeFenetre(1);
                     }
-                	//}
+                    //}
                 }
             }).send();
         };
@@ -209,7 +216,7 @@ window.addEvent('domready', function(){
             var jsonRequest = new Request.JSON({
                 url: "chat?action=id_dernier_message",
                 onComplete: function(reponse){
-                    if (reponse.toSource() !== derniers_id.toSource()) {
+                    if (JSON.stringify(reponse) !== JSON.stringify(derniers_id)) {
                         //alert(reponse);
                         for (i in reponse) {
                             if (reponse[i] != derniers_id[i]) {
@@ -260,49 +267,49 @@ window.addEvent('domready', function(){
         
         //fonction qui recharge la liste des connectes
         //var rechargeOnline = function () {
-        //	$('liste_connectes').load("chat?action=liste_connectes");
+        //  $('liste_connectes').load("chat?action=liste_connectes");
         //}
-        //rechargeOnline.periodical(10000);		
+        //rechargeOnline.periodical(10000);     
         
         var rechargeOnline = function(){
             var requetr = new Request.JSON({
                 url: "chat?action=liste_connectes",
                 onComplete: function(reponse){
                     for (i in reponse) {
-                        //alert(i+reponse[i]);	  
+                        //alert(i+reponse[i]);    
                         var d = new Date();
-						var d2 = new Date();
-						d2.setTime(reponse[i]*1000);
-						var h=d2.getHours();
-						var m=d2.getMinutes();
-						if (m<10) {m = "0" + m}
-						var s=d2.getSeconds();
-						if (s<10) {s = "0" + s}
-						var date=h+'h'+m+':'+s;
-						
-						d2.setTime(reponse[i]*1000);
+                        var d2 = new Date();
+                        d2.setTime(reponse[i]*1000);
+                        var h=d2.getHours();
+                        var m=d2.getMinutes();
+                        if (m<10) {m = "0" + m}
+                        var s=d2.getSeconds();
+                        if (s<10) {s = "0" + s}
+                        var date=h+'h'+m+':'+s;
+                        
+                        d2.setTime(reponse[i]*1000);
                         //si encore en ligne
                         if (parseInt(reponse[i])*1000 > parseInt(d.getTime() - 40000)) {
                             if ($chk($('div_de_'+i)))
-							{
-								$('div_de_'+i).set('class', 'online');
-								$('span_de_'+i).set('text', ' - '+date);
-							}	
+                            {
+                                $('div_de_'+i).set('class', 'online');
+                                $('span_de_'+i).set('text', ' - '+date);
+                            }   
                         }
-						else
-						{
-							if ($chk($('div_de_'+i)))
-							{
-								$('div_de_'+i).set('class', 'offline');
-								$('span_de_'+i).set('text', ' - '+date);
-							}	
-						}
+                        else
+                        {
+                            if ($chk($('div_de_'+i)))
+                            {
+                                $('div_de_'+i).set('class', 'offline');
+                                $('span_de_'+i).set('text', ' - '+date);
+                            }   
+                        }
                     }
                 },
             }).send();
         };
         rechargeOnline();
-		rechargeOnline.periodical(10000);
+        rechargeOnline.periodical(10000);
         
         //on ajoute l'event pour enlever le clignotant qd on parle
         $('text_chat_admin').addEvent('click', function(event){
@@ -321,7 +328,7 @@ window.addEvent('domready', function(){
             else {
                 $('fenetre_chat').setStyle('visibility', 'visible');
                 $('onglet_chat').set('class', 'info onglet');
-				$('text_chat_admin').focus();
+                $('text_chat_admin').focus();
             }
         });
         
