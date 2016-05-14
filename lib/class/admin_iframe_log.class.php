@@ -16,7 +16,7 @@ class admin_iframe_log
 
     public function __construct()
     {
-        $this->sql = new sql();
+        $this->sql = new SQL();
         $this->timeCourant = time();
     }
 

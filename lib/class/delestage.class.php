@@ -15,7 +15,7 @@
     // Le constructeur ouvre la connexion sql
     public function __construct()
     {
-        $this->sql = new sql();
+        $this->sql = new SQL();
     }
 
     // Le destruction ferme la connexion sql

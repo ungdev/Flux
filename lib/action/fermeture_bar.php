@@ -5,7 +5,7 @@ if(!$login->verifConnexion())
   header('Location: '.$config['baseDir'].'/manque_droit');
 
 $admin = new admin_administration();
-$sql = new sql();
+$sql = new SQL();
 
 //select
 if(!isset($_POST['id_espace']) AND !isset($_POST['nb_jetons']))

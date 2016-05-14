@@ -15,7 +15,7 @@ class login
 
     public function __construct()
     {
-        $this->sql = new sql();
+        $this->sql = new SQL();
     }
 
   // on vérifie si le couple login / mot de passe existe

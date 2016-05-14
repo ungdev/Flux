@@ -24,7 +24,7 @@ echo key($_POST);
 <?php
 /*
 
-$sql = new sql();
+$sql = new SQL();
 $combien = $sql->select('id, COUNT(id) as somme', 'stock', "GROUP BY id_type_stock");
 
 $retour = array();

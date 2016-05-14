@@ -7,6 +7,10 @@ if (strpos($_GET['page'], '..') !== false) {
     die();
 }
 
+if (!function_exists('mysql_query')) {
+  die('Version de PHP non-compatible avec mysql_*');
+}
+
 require_once 'lib/conf/config.php';
 
 function __autoload($className) {

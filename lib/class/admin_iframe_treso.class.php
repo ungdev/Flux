@@ -15,7 +15,7 @@ class admin_iframe_treso
 
     public function __construct()
     {
-        $this->sql = new sql();
+        $this->sql = new SQL();
         $this->timeCourant = time();
     }
 

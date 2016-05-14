@@ -21,7 +21,7 @@ class histobar
     // Le constructeur ouvre la connexion sql
     public function __construct()
     {
-        $this->sql = new sql();
+        $this->sql = new SQL();
 
         //Configuration des pseudo constantes de la classes!
 

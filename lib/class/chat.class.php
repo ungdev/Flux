@@ -18,7 +18,7 @@ class chat
 
     public function __construct()
     {
-        $this->sql = new sql();
+        $this->sql = new SQL();
         $this->droit = $_SESSION['droit'];
         $this->id_droit = $_SESSION['id_droit'];
         $this->id_utilisateur = $_SESSION['id'];

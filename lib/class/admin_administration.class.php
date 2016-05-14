@@ -16,7 +16,7 @@ class admin_administration
 
     public function __construct()
     {
-        $this->sql = new sql();
+        $this->sql = new SQL();
     }
 
   //header des pages iframe... c moche, certe...
