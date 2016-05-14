@@ -63,7 +63,7 @@ class Chat
       //on récupère les messages avec en id_expediteur ou en id_destinataire le gars, et aussi ceux dont il a le droit
       $query = $this->sql->query('SELECT login, UNIX_TIMESTAMP(`date`) as date, message FROM chat LEFT JOIN utilisateur ON (chat.id_expediteur = utilisateur.id) WHERE id_destinataire = '.$this->id_utilisateur.' OR id_expediteur = '.$this->id_utilisateur.' OR '.$select_droits.' ORDER BY date');
         echo '<ul>';
-        while ($value = mysql_fetch_assoc($query)) {
+        while ($value = mysqli_fetch_assoc($query)) {
             echo '<li><strong>'.$value['login'].'</strong> (<em>'.date('H:i:s', $value['date']).'</em>) : <br />'.html_entity_decode($value['message']).'</li>';
         }
         echo '</ul>';
@@ -76,7 +76,7 @@ class Chat
             //on récupère les messages de la liste
       $query = $this->sql->query('SELECT login, UNIX_TIMESTAMP(`date`) as date, message FROM chat INNER JOIN utilisateur ON (chat.id_expediteur = utilisateur.id) WHERE id_droit = '.$id.' ORDER BY date');
             echo '<ul>';
-            while ($value = mysql_fetch_assoc($query)) {
+            while ($value = mysqli_fetch_assoc($query)) {
                 echo '<li><strong>'.$value['login'].'</strong> (<em>'.date('H:i:s', $value['date']).'</em>) : <br />'.html_entity_decode($value['message']).'</li>';
             }
             echo '</ul>';
@@ -89,7 +89,7 @@ class Chat
             //on récupère les messages de la liste
       $query = $this->sql->query('SELECT login, UNIX_TIMESTAMP(`date`) as date, message FROM chat INNER JOIN utilisateur ON (chat.id_expediteur = utilisateur.id) WHERE id_expediteur = '.$id.' OR id_destinataire = '.$id.' ORDER BY date');
             echo '<ul>';
-            while ($value = mysql_fetch_assoc($query)) {
+            while ($value = mysqli_fetch_assoc($query)) {
                 echo '<li><strong>'.$value['login'].'</strong> (<em>'.date('H:i:s', $value['date']).'</em>) : <br />'.html_entity_decode($value['message']).'</li>';
             }
             echo '</ul>';
@@ -130,7 +130,7 @@ class Chat
       //on récupère les messages avec en id_expediteur ou en id_destinataire le gars, et aussi ceux dont il a le droit
       $query = $this->sql->query('SELECT id FROM chat WHERE '.$select_droits.' OR id_destinataire = '.$this->id_utilisateur.' OR id_expediteur = '.$this->id_utilisateur.' ORDER BY id DESC LIMIT 0,1');
       //$query = $this->sql->query("SELECT chat.id AS id FROM chat INNER JOIN utilisateur ON (chat.id_expediteur = utilisateur.id) WHERE ".$select_droits." OR id_destinataire = ".$this->id_utilisateur." OR id_expediteur = ".$this->id_utilisateur." ORDER BY id DESC LIMIT 0,1");
-      $value = mysql_fetch_assoc($query);
+      $value = mysqli_fetch_assoc($query);
 
         $json = array('id' => $value['id']);
         echo json_encode($json);
@@ -162,13 +162,13 @@ class Chat
     {
         $query1 = $this->sql->query('SELECT id, nom FROM droit WHERE liste = 1 ORDER BY nom');
         $droits = array();
-        while ($table = mysql_fetch_assoc($query1)) {
+        while ($table = mysqli_fetch_assoc($query1)) {
             $droits[] = $table;
         }
 
         $query2 = $this->sql->query('SELECT utilisateur.id, login, UNIX_TIMESTAMP(`derniere_connexion`) as derniere_connexion FROM espace INNER JOIN utilisateur ON (espace.id_utilisateur = utilisateur.id) WHERE `etat`=1 ORDER BY `login`');
         $admins = array();
-        while ($table = mysql_fetch_assoc($query2)) {
+        while ($table = mysqli_fetch_assoc($query2)) {
             $admins[] = $table;
         }
 
@@ -193,7 +193,7 @@ class Chat
     {
         $query1 = $this->sql->query('SELECT id, login, UNIX_TIMESTAMP(`derniere_connexion`) as derniere_connexion FROM utilisateur ORDER BY login');
         $retour = array();
-        while ($value = mysql_fetch_assoc($query1)) {
+        while ($value = mysqli_fetch_assoc($query1)) {
             $retour[$value['login']] = $value['derniere_connexion'];
         }
         echo json_encode($retour);
@@ -234,7 +234,7 @@ class Chat
 
     //return $resultat;
     echo '<ul>';
-        while ($value = mysql_fetch_assoc($query)) {
+        while ($value = mysqli_fetch_assoc($query)) {
             echo '<li>De <strong>'.$value['login'].'</strong> à <strong>'.$value['id_recepteur'].'</strong> <em>'.date('H:i:s', $value['date']).'</em>'.$value['message'].'</li>';
         }
         echo '</ul>';

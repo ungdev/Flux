@@ -24,7 +24,7 @@ $NomPage = "Administration";
 
     <div id="flux">
 	  <div id="nav-icons_all"><ul id="nav-icons">
-        <li class="logout-icon"><a href="<?php echo $config['baseDir']?>/deconnexion" title="Déconnexion"></a></li>
+        <li class="logout-icon"><a href="<?php echo $config['baseDir']?>/logout" title="Déconnexion"></a></li>
 	  </ul></div>
       <div class="center"><h1>Administration (<?php echo $_SESSION['login'] ?>)</h1></div>
 	  <div id="admin_problemes" class="off onglet"><h1><a class="a_onglet" href="admin_problemes" title="Problèmes">Problèmes</a></h1></div>

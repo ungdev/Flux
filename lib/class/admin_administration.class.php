@@ -1,7 +1,6 @@
 <?php
-include 'lib/conf/config_secure.inc';
 
-/*
+/**
  *
  * Auteur : Reivax <bernard.xav@gmail.com>
  * Modification : 15/05/11 by SoX <flosox@gmail.com>

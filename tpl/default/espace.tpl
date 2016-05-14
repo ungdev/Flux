@@ -52,7 +52,7 @@ $NomPage = "Espace à thème";
     <div id="flux">
 	  <div id="nav-icons_all"><ul id="nav-icons">
 	  	<li class="help-icon"><a href="javascript:displayHelp()" title="Aide"></a></li>
-        <li class="logout-icon"><a href="<?php echo $config['baseDir']?>/deconnexion" title="Déconnexion"></a></li>
+        <li class="logout-icon"><a href="<?php echo $config['baseDir']?>/logout" title="Déconnexion"></a></li>
 	  </ul></div>
       <div class="center"><h1>Espace de <?php echo $_SESSION['login'] ?></h1></div>
       <div id="help">

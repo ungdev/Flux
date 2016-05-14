@@ -1,7 +1,7 @@
 <?php
 //tester si droit
-$login  = new login();
-if(!$login->verifConnexion() OR (!$login->testDroit('superadmin') AND !$login->testDroit('admin_espaces')))
+$login  = new Login();
+if(!$login->isConnected() OR (!$login->testDroit('superadmin') AND !$login->testDroit('admin_espaces')))
   header('Location: '.$config['baseDir'].'/manque_droit');
 
 $admin = new admin_administration();

@@ -1,9 +1,7 @@
 <?php
 
 /**
- * Wrapper autour des fonctions mysql_*
- *
- * @todo: Migrer vers mysqli_* pour supporter PHP7.
+ * Wrapper autour des fonctions mysqli_*.
  */
 class SQL
 {
@@ -14,11 +12,13 @@ class SQL
     {
         global $config;
 
-        $this->link = mysql_connect($config['database']['host'], $config['database']['user'], $config['database']['pass']);
-        mysql_select_db($config['database']['base']);
+        $this->link = mysqli_connect($config['database']['host'], $config['database']['user'], $config['database']['pass']);
+
         if (!$this->link) {
-            die('Impossible de se connecter à la base de données: '.mysql_error());
+            die('Impossible de se connecter à la base de données: '.($this->link ? mysqli_error($this->link) : (($err = mysqli_connect_error()) ? $err : false)));
         }
+
+        mysqli_query($this->link, 'USE '.$config['database']['base']);
     }
 
     /**
@@ -26,7 +26,9 @@ class SQL
      */
     public function __destruct()
     {
-        mysql_close();
+        if ($this->link) {
+            mysqli_close($this->link);
+        }
     }
 
     /**
@@ -36,14 +38,15 @@ class SQL
      * @todo   Vérifier le comportement en cas d'un seul résultat, il devrait être
      *         retourné directement.
      *
-     * @param  string $field
-     * @param  string $table
-     * @param  string $where
+     * @param string $field
+     * @param string $table
+     * @param string $where
+     *
      * @return int|array
      */
     public function select($field, $table, $where = '')
     {
-        $query = mysql_query('SELECT '.$field.' FROM `'.$table.'` '.$where);
+        $query = mysqli_query($this->link, 'SELECT '.$field.' FROM '.$table.' '.$where);
 
         $this->checkError($query);
 
@@ -51,15 +54,15 @@ class SQL
         // S'il y a eu un résultat, on renvoie directement celui-ci.
         // Sinon, on crée un tableau qui va recevoir les résultats.
         // XXX: Voir commentaire du docblock de la méthode.
-        if (mysql_num_rows($query) === 0) {
+        if (mysqli_num_rows($query) === 0) {
             return 0;
-        } elseif (mysql_num_rows($query) === 1) {
-            $result = mysql_fetch_assoc($query);
+        } elseif (mysqli_num_rows($query) === 1) {
+            $result = mysqli_fetch_assoc($query);
         } else {
             $result = [];
         }
 
-        while ($table = mysql_fetch_assoc($query)) {
+        while ($table = mysqli_fetch_assoc($query)) {
             $result[] = $table;
         }
 
@@ -82,14 +85,15 @@ class SQL
     /**
      * Retourne le nombre de résultats pour un champ donné.
      *
-     * @param  string $field
-     * @param  string $table
-     * @param  string $clause
+     * @param string $field
+     * @param string $table
+     * @param string $clause
+     *
      * @return int
      */
     public function select_count($field, $table, $where = '')
     {
-        $query = mysql_query('SELECT COUNT('.$field.') FROM `'.$table.'` '.$where);
+        $query = mysqli_query($this->link, 'SELECT COUNT('.$field.') FROM '.$table.' '.$where);
 
         $this->checkError($query);
 
@@ -107,7 +111,7 @@ class SQL
      */
     public function insert($table, $field, $values)
     {
-        $query = mysql_query('INSERT INTO `'.$table.'` ('.$field.') VALUES ('.$values.')');
+        $query = mysqli_query($this->link, 'INSERT INTO '.$table.' ('.$field.') VALUES ('.$values.')');
 
         $this->checkError($query);
     }
@@ -121,7 +125,7 @@ class SQL
      */
     public function update($table, $newValue, $where)
     {
-        $query = mysql_query('UPDATE `'.$table.'` SET '.$newValue.' WHERE '.$where);
+        $query = mysqli_query($this->link, 'UPDATE '.$table.' SET '.$newValue.' WHERE '.$where);
 
         $this->checkError($query);
     }
@@ -134,7 +138,7 @@ class SQL
      */
     public function delete($table, $where)
     {
-        $query = mysql_query('DELETE FROM `'.$table.'` WHERE '.$where);
+        $query = mysqli_query($this->link, 'DELETE FROM '.$table.' WHERE '.$where);
 
         $this->checkError($query);
     }
@@ -142,12 +146,13 @@ class SQL
     /**
      * Requête « raw », directement passée à la base de données.
      *
-     * @param  string    $query
+     * @param string $query
+     *
      * @return ressource Resultat de la requête sous forme de ressource
      */
     public function query($query)
     {
-        $query = mysql_query($query);
+        $query = mysqli_query($this->link, $query);
 
         $this->checkError($query);
 
@@ -162,7 +167,7 @@ class SQL
     protected function checkError($query)
     {
         if (!$query) {
-            die('Impossible d\'exécuter la requête : '.mysql_error());
+            die('Impossible d\'exécuter la requête : '.mysqli_error($this->link));
         }
     }
 }

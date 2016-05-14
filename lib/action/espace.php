@@ -1,7 +1,7 @@
 <?php
 //tester si logué... sinon, redirigé vers la bonne page
-$login  = new login();
-if(!$login->verifConnexion())
+$login  = new Login();
+if(!$login->isConnected())
   header('Location: '.$config['baseDir'].'/login');
 
 if(isset($_GET['action']) AND $_GET['action'] == 'prob') 
