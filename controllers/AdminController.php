@@ -13,7 +13,7 @@ class AdminController extends Controller
 
 	public function HomeAction() {
 
-		if(!$this->login->isConnected() OR !$this->login->testDroit('admin')) {
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
 			return ['redirection' => ''];
 		}
 
@@ -31,7 +31,7 @@ class AdminController extends Controller
 
 	public function AdministrationAction() {
 
-		if(!$this->login->isConnected() OR !$this->login->testDroit('admin')) {
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
 			return ['redirection' => ''];
 		}
 
@@ -59,7 +59,7 @@ class AdminController extends Controller
 
 	public function StockAction() {
 
-		if(!$this->login->isConnected() OR (!$this->login->testDroit('superadmin') AND !$this->login->testDroit('admin_stock'))) {
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
 			return ['redirection' => ''];
 		}
 
@@ -90,7 +90,7 @@ class AdminController extends Controller
 
 	public function ProblemManagerAction() {
 
-		if(!$this->login->isConnected() OR !$this->login->testDroit('admin')) {
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
 			return ['redirection' => ''];
 		}
 
@@ -120,7 +120,7 @@ class AdminController extends Controller
 
 	public function EspaceManagerAction() {
 
-		if(!$this->login->isConnected() OR (!$this->login->testDroit('superadmin') AND !$this->login->testDroit('admin_espaces'))) {
+		if(!$this->login->isConnected() OR (!$this->login->testDroit('Admin'))) {
 			return ['redirection' => ''];
 		}
 
@@ -151,7 +151,7 @@ class AdminController extends Controller
 
 	public function UserManagerAction() {
 
-		if(!$this->login->isConnected() OR !$this->login->testDroit('superadmin')) {
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
 			return ['redirection' => ''];
 		}
 
@@ -189,7 +189,7 @@ class AdminController extends Controller
 	}
 
 	public function logContainerAction() {
-		if(!$this->login->isConnected() OR (!$this->login->testDroit('logistique') AND !$this->login->testDroit('superadmin'))) {
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
 			return ['redirection' => ''];
 		}
 		return [
@@ -199,7 +199,7 @@ class AdminController extends Controller
 	}
 
 	public function matriceContainerAction() {
-		if(!$this->login->isConnected() OR !$this->login->testDroit('admin')) {
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
 			return ['redirection' => ''];
 		}
 		return [
@@ -209,7 +209,7 @@ class AdminController extends Controller
 	}
 
 	public function tresoContainerAction() {
-		if(!$this->login->isConnected() OR !($this->login->testDroit('superadmin') OR $this->login->testDroit('treso'))) {
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
 			return ['redirection' => ''];
 		}
 		return [
@@ -220,7 +220,7 @@ class AdminController extends Controller
 
 	public function logAction() {
 
-		if(!$this->login->isConnected() OR (!$this->login->testDroit('logistique') AND !$this->login->testDroit('superadmin'))) {
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
 			return ['redirection' => ''];
 		}
 
@@ -252,7 +252,7 @@ class AdminController extends Controller
 
 	public function matriceAction() {
 
-		if(!$this->login->isConnected() OR (!$this->login->testDroit('matrice') AND !$this->login->testDroit('superadmin'))) {
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
 			return ['redirection' => ''];
 		}
 
@@ -282,7 +282,7 @@ class AdminController extends Controller
 
 	public function tresoAction() {
 
-		if(!$this->login->isConnected() OR (!$this->login->testDroit('treso') AND !$this->login->testDroit('superadmin'))) {
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
 			return ['redirection' => ''];
 		}
 
@@ -296,7 +296,7 @@ class AdminController extends Controller
 
 	public function problemAction() {
 
-		if(!$this->login->isConnected() OR !$this->login->testDroit('admin')) {
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
 			return ['redirection' => ''];
 		}
 

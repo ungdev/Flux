@@ -29,19 +29,19 @@ $title = "Administration";
 	<div class="center"><h1>Administration (<?php echo $_SESSION['login'] ?>)</h1></div>
 	<div id="admin_problemes" class="off onglet"><h1><a class="a_onglet" href="admin_problemes" title="Problèmes">Problèmes</a></h1></div>
 
-	<?php if(($login->testDroit('superadmin') OR $login->testDroit('logistique'))) { ?>
+	<?php if($login->testDroit('Admin')) { ?>
 		<div id="admin_logistique" class="off onglet"><h1><a class="a_onglet" href="admin_logistique" title="Logistique">Logistique</a></h1></div>
 	<?php } ?>
 
-	<?php if($login->testDroit('matrice')) { ?>
+	<?php if($login->testDroit('Admin')) { ?>
 		<div id="admin_matrice" class="off onglet"><h1><a class="a_onglet" href="admin_matrice" title="Logistique">Stock</a></h1></div>
 	<?php } ?>
 
-	<?php if(($login->testDroit('superadmin') OR $login->testDroit('treso'))) { ?>
+	<?php if($login->testDroit('Admin')) { ?>
 		<div id="admin_tresorerie" class="off onglet"><h1><a class="a_onglet" href="admin_tresorerie" title="Trésorerie">Trésorerie</a></h1></div>
 	<?php } ?>
 
-	<?php if(($login->testDroit('superadmin') OR $login->testDroit('admin_espaces') OR $login->testDroit('admin_stock') OR $login->testDroit('admin_pb'))) { ?>
+	<?php if($login->testDroit('Admin')) { ?>
 		<div id="admin_administration" class="off onglet"><h1><a class="a_onglet" href="admin_administration" title="Administration">Admin</a></h1></div>
 	<?php } ?>
 

@@ -10,9 +10,9 @@ class LoginController extends Controller
 		// L'utilisateur vient de soumettre le formulaire, on vérifie s'il n'est pas
 		// déjà connecté ou si
 		if (array_key_exists('utilisateur', $_POST) && array_key_exists('password', $_POST)) {
-			 if ($this->login->isConnected() || $this->login->checkCredentials($_POST['utilisateur'], $_POST['password'])) {
+			 if ($this->login->checkCredentials($_POST['utilisateur'], $_POST['password'])) {
 				// Redirection vers la bonne page en fonction de ses droits.
-				if ($this->login->testDroit('admin')) {
+				if ($this->login->testDroit('Admin')) {
 					return ['redirection' => 'admin'];
 				}
 				elseif ($this->login->droitEspace()) {

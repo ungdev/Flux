@@ -67,12 +67,6 @@ class histobar
                 //Un truc d'enfoirer serias de metre un chap budjet a mois 10 a chaque problemme qui enleve 10Euros au bar par problemme declare (yaka pas leur dire ca fait gagner des sous...)
             }
 
-            //Permanancier
-            $datas = $this->sql->select("CONCAT_WS(' ',nom,prenom) as label , UNIX_TIMESTAMP(debut) as start ,UNIX_TIMESTAMP(fin) as end", 'permanancier', "WHERE id_espace='".$id_espace."'");
-            foreach ($datas as $data) {
-                $aoe[$this->datetores($data['start'])][] = array('type' => 'perm', 'label' => $data['label'], 'duree' => ($this->datetores($data['end']) - $this->datetores($data['start'])));
-            }
-
             //TODO: comprendre le truc et definir ou toruver les valeurs financieres des futs !
 
             /*
