@@ -17,9 +17,7 @@ RewriteRule ^(.*)$ ?page=$1 [L,QSA]
 
 ## Configuration nginx
 
-À tester et améliorer.
-
-**PAS DE CACHE SUR LES RESSOURCES**.
+**PAS DE CACHE SUR LES RESSOURCES POUR POUVOIR MODIFIER PENDANT LE GALA**.
 
 ```
     location ~ ^/([A-z_]+)$ {
@@ -28,5 +26,9 @@ RewriteRule ^(.*)$ ?page=$1 [L,QSA]
 
     location / {
         try_files $uri /index.php?&args;
+    }
+
+    location ~ /\.git {
+        deny all;
     }
 ```
