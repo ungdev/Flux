@@ -3,12 +3,6 @@ use lib\Login;
 
 session_start();
 
-// Avoid some kind of LFI.
-if (isset($_GET['page']) && strpos($_GET['page'], '..') !== false) {
-	header('HTTP/1.0 403 Forbidden');
-	die();
-}
-
 // Load configuration
 require_once '../config/config.php';
 
