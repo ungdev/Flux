@@ -1,0 +1,10 @@
+<?php
+
+$conf['app_name'] = 'Flux'; // Application name
+$conf['web_uri'] = '/'; // Web URI to the `web` directory (end with a '/')
+$conf['server_path'] = dirname(__FILE__).'/../'; // Path to the root of the project (end with a '/')
+
+$conf['database']['host'] = 'localhost';
+$conf['database']['base'] = 'flux';
+$conf['database']['user'] = 'flux';
+$conf['database']['pass'] = '';
