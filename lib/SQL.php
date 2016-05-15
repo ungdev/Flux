@@ -58,8 +58,6 @@ class SQL
         // XXX: Voir commentaire du docblock de la méthode.
         if (mysqli_num_rows($query) === 0) {
             return 0;
-        } elseif (mysqli_num_rows($query) === 1) {
-            $result = mysqli_fetch_assoc($query);
         } else {
             $result = [];
         }

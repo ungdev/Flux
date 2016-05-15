@@ -305,28 +305,16 @@ class admin_administration
         $resultat = $this->sql->select('espace.id, espace.nom AS nom_bar, lieu, login, type_espace.nom AS type_nom, etat', 'espace', 'LEFT JOIN utilisateur ON (espace.id_utilisateur = utilisateur.id) LEFT JOIN type_espace ON (espace.id_type_espace = type_espace.id)');
 
         echo '<div>';
-        if (isset($resultat['nom_bar'])) {
-            echo '<h2>'.$resultat['nom_bar'].'</h2>';
-            echo '<h3>'.$resultat['lieu'].' - '.$resultat['login'].'</h3>';
-            echo '<p> '.$resultat['type_nom'].' - ';
-            if ($resultat['etat']) {
+        foreach ($resultat as $value) {
+            echo '<h2>'.$value['nom_bar'].'</h2>';
+            echo '<h3>'.$value['lieu'].' - '.$value['login'].'</h3>';
+            echo '<p> '.$value['type_nom'].' - ';
+            if ($value['etat']) {
                 echo 'ouvert<br />';
             } else {
                 echo 'fermé<br />';
             }
-            echo '<a href="?action=modifier_espace&id='.$resultat['id'].'">modifier</a> | <a href="?action=supprimer_espace&id='.$resultat['id'].'">supprimer</a></p>';
-        } else {
-            foreach ($resultat as $value) {
-                echo '<h2>'.$value['nom_bar'].'</h2>';
-                echo '<h3>'.$value['lieu'].' - '.$value['login'].'</h3>';
-                echo '<p> '.$value['type_nom'].' - ';
-                if ($value['etat']) {
-                    echo 'ouvert<br />';
-                } else {
-                    echo 'fermé<br />';
-                }
-                echo '<a href="?action=modifier_espace&id='.$value['id'].'">modifier</a> | <a href="?action=supprimer_espace&id='.$value['id'].'">supprimer</a></p>';
-            }
+            echo '<a href="?action=modifier_espace&id='.$value['id'].'">modifier</a> | <a href="?action=supprimer_espace&id='.$value['id'].'">supprimer</a></p>';
         }
         echo '</div>';
     }
@@ -342,26 +330,15 @@ class admin_administration
         }
 
         echo '<div>';
-        if (isset($resultat['nom_bar'])) {
-            echo '<h2>'.$resultat['nom'].'</h2>';
-            echo '<p>'.$resultat['conditionnement'].' (<strong>'.$retour[$resultat['id']].'</strong>)<br />';
-            echo $resultat['reference'].' - '.$resultat['volume'];
-            if ($resultat['unitaire']) {
+        foreach ($resultat as $value) {
+            echo '<h2>'.$value['nom'].'</h2>';
+            echo '<p>'.$value['conditionnement'].' (<strong>'.($retour[$value['id']]??'-').'</strong>)<br />';
+            echo $value['reference'].' - '.$value['volume'];
+            if ($value['unitaire']) {
                 echo ' - unitaire';
             }
-            echo '<br />Prix : '.$resultat['valeur_achat'].' / '.$resultat['valeur_vente'].'<br />';
-            echo '<a href="?action=modifier_espace&id='.$resultat['id'].'">modifier</a> | <a href="?action=supprimer_espace&id='.$resultat['id'].'">supprimer</a></p>';
-        } else {
-            foreach ($resultat as $value) {
-                echo '<h2>'.$value['nom'].'</h2>';
-                echo '<p>'.$value['conditionnement'].' (<strong>'.($retour[$value['id']]??'-').'</strong>)<br />';
-                echo $value['reference'].' - '.$value['volume'];
-                if ($value['unitaire']) {
-                    echo ' - unitaire';
-                }
-                echo '<br />Prix : '.$value['valeur_achat'].' / '.$value['valeur_vente'].'<br />';
-                echo '<a href="?action=modifier_type_stock&id='.$value['id'].'">modifier</a> | <a href="?action=supprimer_type_stock&id='.$value['id'].'">supprimer</a></p>';
-            }
+            echo '<br />Prix : '.$value['valeur_achat'].' / '.$value['valeur_vente'].'<br />';
+            echo '<a href="?action=modifier_type_stock&id='.$value['id'].'">modifier</a> | <a href="?action=supprimer_type_stock&id='.$value['id'].'">supprimer</a></p>';
         }
         echo '</div>';
     }
