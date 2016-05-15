@@ -1,4 +1,4 @@
 composer.phar
 /vendor/
-lib/conf/config.php
+config/config.php
 *.diff
