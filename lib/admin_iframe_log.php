@@ -162,7 +162,7 @@ class admin_iframe_log
 
     public function tr_stock($id_stock, $id_espace)
     {
-        $reste = $this->sql->select('reste', 'stock', "WHERE id='".$id_stock."'");
+        $reste = $this->sql->select('reste', 'stock', "WHERE id='".$id_stock."'")[0];
 
     //echo $reste[0];
     $this->sql->update('parcours', '`fin` = NOW()', '`id_stock`='.$id_stock.' ORDER BY id DESC LIMIT 1');

@@ -95,6 +95,7 @@ class admin_administration
     {
         $resulat = $this->sql->select('utilisateur.id, login', 'utilisateur', "LEFT JOIN liste_droit ON (utilisateur.id = liste_droit.id_utilisateur) LEFT JOIN droit ON (liste_droit.id_droit = droit.id) WHERE droit.nom = 'bar' ORDER BY login");
         $string = '<option value="">Propriétaire</option>';
+
         foreach ($resulat as $value) {
             if ($value['id'] == $valueEx) {
                 $string .= '<option value="'.$value['id'].'" selected="selected">'.$value['login'].'</option>';
@@ -375,21 +376,21 @@ class admin_administration
 
     public function modifier_espace($id)
     {
-        $result = $this->sql->select('id, nom, lieu, id_type_espace, id_utilisateur, etat', 'espace', "WHERE id='".$id."'");
+        $result = $this->sql->select('id, nom, lieu, id_type_espace, id_utilisateur, etat', 'espace', "WHERE id='".$id."'")[0];
 
         return $result;
     }
 
     public function modifier_utilisateur($id)
     {
-        $result = $this->sql->select('id, login', 'utilisateur', "WHERE id='".$id."'");
+        $result = $this->sql->select('id, login', 'utilisateur', "WHERE id='".$id."'")[0];
 
         return $result;
     }
 
     public function modifier_type_stock($id)
     {
-        $result = $this->sql->select('*', 'type_stock', "WHERE id='".$id."'");
+        $result = $this->sql->select('*', 'type_stock', "WHERE id='".$id."'")[0];
         $combienEx = $this->sql->select_count('id', 'stock', "WHERE id_type_stock='".$id."'");
         $result['combien'] = $combienEx;
 
@@ -398,7 +399,7 @@ class admin_administration
 
     public function modifier_type_prob($id)
     {
-        $result = $this->sql->select('*', 'type_prob', "WHERE id='".$id."'");
+        $result = $this->sql->select('*', 'type_prob', "WHERE id='".$id."'")[0];
 
         return $result;
     }

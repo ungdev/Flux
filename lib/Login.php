@@ -28,7 +28,7 @@ class Login
             die('Symboles non-autorisés dans le nom d\'utilisateur.');
         }
 
-        $resultat = $this->sql->select('id, login', 'utilisateur', "WHERE login='".$user."' AND pass='".SHA1($pass)."'");
+        $resultat = $this->sql->select('id, login', 'utilisateur', "WHERE login='".$user."' AND pass='".SHA1($pass)."'")[0];
         if ($resultat) {
             $_SESSION['id'] = $resultat['id'];
             $_SESSION['login'] = $resultat['login'];
@@ -70,7 +70,7 @@ class Login
     public function droitEspace()
     {
         $id = $_SESSION['id'];
-        $resultat = $this->sql->select('id, nom', 'espace', "WHERE etat='1' AND id_utilisateur='".$id."'");
+        $resultat = $this->sql->select('id, nom', 'espace', "WHERE etat='1' AND id_utilisateur='".$id."'")[0];
 
         if ($resultat) {
             $_SESSION['id_espace'] = $resultat['id'];

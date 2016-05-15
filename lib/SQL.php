@@ -52,12 +52,8 @@ class SQL
         $query = mysqli_query($this->link, 'SELECT '.$field.' FROM '.$table.' '.$where);
         $this->checkError($query);
 
-        // Si jamais la requête n'a rien retourné, on renvoie 0.
-        // S'il y a eu un résultat, on renvoie directement celui-ci.
-        // Sinon, on crée un tableau qui va recevoir les résultats.
-        // XXX: Voir commentaire du docblock de la méthode.
         if (mysqli_num_rows($query) === 0) {
-            return 0;
+            return [];
         } else {
             $result = [];
         }
