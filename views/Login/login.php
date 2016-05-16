@@ -10,8 +10,8 @@
  */
 
 //structure de la page
-$css = ['login'];
-$js = [];
+$css = ['bootstrap.min', 'bootstrap-theme.min', 'login'];
+$js = ['jquery.min', 'bootstrap.min'];
 $title = "Connexion";
 
 ?>
