@@ -33,13 +33,7 @@ class admin_problemes
 		$probs = $this->sql->select("espace.id as id_espace, espace.nom as nom_espace, espace.lieu, type_prob.nom,type_prob.id as probi_type_id, liste_prob.gravite, liste_prob.auteur, liste_prob.id as prob_id", '`liste_prob` INNER JOIN type_prob ON liste_prob.id_type_prob = type_prob.id INNER JOIN espace ON liste_prob.id_espace = espace.id', 'WHERE gravite >= 1');
 
 
-	if(isset($probs['nom_espace'])){ ?>
-		<h2><?php echo $probs['nom_espace'].' ('.$probs['lieu'].')'; ?></h2>
-		<table id="table_admin_problemes">
-<?php 			$this->valeur_problemes($probs['id_espace'], $probs); ?>
-		</table>
-<?php
-	}elseif (is_array($probs)){
+        if (count($probs) > 0){
 		$prec="";
 		foreach ($probs as $prob){
 ?><table><?php

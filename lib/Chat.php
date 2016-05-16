@@ -30,7 +30,7 @@ class Chat
     public function afficheChat()
     {
         //si le mec est un un bar
-    if (@in_array('bar', $this->droit)) {
+    if (@in_array('Bar', $this->droit)) {
         ?>
 <div id="bloc_chat">
   <div id="texte_chat">
@@ -44,7 +44,7 @@ class Chat
 </div>
 	<?php
 
-    } elseif (@in_array('admin', $this->droit)) {
+} elseif (@in_array('Admin', $this->droit)) {
         ?>
 <div id="liste_connectes">
     <?php
@@ -59,7 +59,7 @@ class Chat
     public function liste_messages()
     {
         //si le mec est un un bar
-    if (@in_array('bar', $this->droit)) {
+    if (@in_array('Bar', $this->droit)) {
         //implode pour la requete sql
       $select_droits = 'id_droit = '.implode(' OR id_droit = ', $this->id_droit);
 
@@ -75,7 +75,7 @@ class Chat
 
     public function liste_messages_toliste($id)
     {
-        if (@in_array('admin', $this->droit)) {
+        if (@in_array('Admin', $this->droit)) {
             //on récupère les messages de la liste
       $query = $this->sql->query('SELECT login, UNIX_TIMESTAMP(`date`) as date, message FROM chat INNER JOIN utilisateur ON (chat.id_expediteur = utilisateur.id) WHERE id_droit = '.$id.' ORDER BY date');
             echo '<ul>';
@@ -88,7 +88,7 @@ class Chat
 
     public function liste_messages_toqqn($id)
     {
-        if (@in_array('admin', $this->droit)) {
+        if (@in_array('Admin', $this->droit)) {
             //on récupère les messages de la liste
       $query = $this->sql->query('SELECT login, UNIX_TIMESTAMP(`date`) as date, message FROM chat INNER JOIN utilisateur ON (chat.id_expediteur = utilisateur.id) WHERE id_expediteur = '.$id.' OR id_destinataire = '.$id.' ORDER BY date');
             echo '<ul>';
@@ -102,15 +102,15 @@ class Chat
     public function enregistrer_message($liste = '', $id = '')
     {
         $message = addslashes($_POST['text_chat']);
-        if (@in_array('bar', $this->droit)) {
+        if (@in_array('Bar', $this->droit)) {
             //$requete = $this->sql->select('id', 'droit', "WHERE nom='admin'");
       //$id_admin = $requete[0];
       //on speach sur le droit 0 ?
       if ($_POST['text_chat'] != '') {
-          $this->sql->insert('chat', '`id_expediteur`, `id_droit`, `date`, `message`', "'".$this->id_utilisateur."', '0', NOW( ), '".$message."'");
+          $this->sql->insert('chat', '`id_expediteur`, `id_droit`, `date`, `message`', "'".$this->id_utilisateur."', null, NOW( ), '".$message."'");
       }
       //$this->sql->insert('chat', '`id_expediteur`, `id_droit`, `date`, `message`', "'".$this->id_utilisateur."', '".$id_admin."', NOW( ), '".$message."'");
-        } elseif (@in_array('admin', $this->droit)) {
+        } elseif (@in_array('Admin', $this->droit)) {
             if ($liste == 'toliste') {
                 if ($_POST['text_chat'] != '') {
                     $this->sql->insert('chat', '`id_expediteur`, `id_droit`, `date`, `message`', "'".$this->id_utilisateur."', '".$id."', NOW( ), '".$message."'");
@@ -126,7 +126,7 @@ class Chat
     public function Json_id_dernier_message()
     {
         //si le mec est un un bar
-    if (@in_array('bar', $this->droit)) {
+    if (@in_array('Bar', $this->droit)) {
         //implode pour la requete sql
       $select_droits = 'id_droit = '.implode(' OR id_droit = ', $this->id_droit);
 
@@ -139,7 +139,7 @@ class Chat
         echo json_encode($json);
     }
     //si le mec est un un bar
-    if (@in_array('admin', $this->droit)) {
+    if (@in_array('Admin', $this->droit)) {
         //on récupère les messages avec en id_expediteur ou en id_destinataire le gars, et aussi ceux dont il a le droit
       //requete qui chope le max id du message de chaque droit...
       $requete1 = $this->sql->select('MAX(chat.id) as dernier_id, chat.id_droit, droit.nom', 'chat', 'LEFT JOIN `droit` ON (chat.id_droit = droit.id) GROUP BY `id_droit`');
@@ -213,7 +213,7 @@ class Chat
             $chat_droit = 0;
         }
 
-        $this->sql->insert('chat', 'id_expediteur, id_recepteur, date, message', $this->id_utilisateur."', '0', NOW( ), '".$message);
+        $this->sql->insert('chat', 'id_expediteur, id_recepteur, date, message', $this->id_utilisateur."', null, NOW( ), '".$message);
 
     //echo 'ici___'.$_POST['toto'];
 

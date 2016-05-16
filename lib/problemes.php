@@ -30,6 +30,7 @@ namespace lib;
      {
          $titles = $this->sql->select('*', 'cat_prob', 'WHERE id != 0');
          $probs = $this->sql->select('liste_prob.id_type_prob, type_prob.id_cat_prob, type_prob.nom, liste_prob.id, liste_prob.gravite', '(liste_prob INNER JOIN type_prob ON liste_prob.id_type_prob = type_prob.id)', 'WHERE type_prob.id_cat_prob != 0 AND id_espace ='.$_SESSION['id_espace']);
+
          foreach ($titles as $title) {
              ?>
 	<h2><?php echo $title['nom'];
@@ -97,7 +98,8 @@ namespace lib;
         $this->sql->insert('archive_prob', '`id_liste_prob`, `id_type_prob`, `id_espace`, `heure`, `gravite`', $id.','.$id_type.','.$id_espace.',NOW(),'.$plus_gravite);
     } elseif ($sens == -1) {
         $this->sql->update('liste_prob', "`gravite` = '0', `auteur` = NULL", '`id`='.$id);
-        $this->sql->insert('archive_prob', '`id_liste_prob`, `id_type_prob`, `id_espace`, `heure`, `gravite`', $id.','.$id_type.','.$id_espace.',NOW(), 0');
+        $select = $this->sql->select('*', 'liste_prob', 'WHERE `id`='.$id)[0];
+        $this->sql->insert('archive_prob', '`id_liste_prob`, `id_type_prob`, `id_espace`, `heure`, `gravite`', $id.','.$select['id_type_prob'].','.$select['id_espace'].',NOW(), 0');
     }
   }
  }

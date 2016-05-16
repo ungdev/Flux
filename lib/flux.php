@@ -29,7 +29,7 @@ namespace lib;
 
      public function liste($id_espace)
      {
-         $stocks = $this->sql->select('type_stock.nom as nom, type_stock.conditionnement as conditionnement, stock.id, stock.identifiant, UNIX_TIMESTAMP(stock.entame) as entame, UNIX_TIMESTAMP(stock.fin) as fin', '(`type_stock` INNER JOIN stock ON type_stock.id = stock.id_type_stock) INNER JOIN parcours ON stock.id=parcours.id_stock', 'WHERE parcours.id_espace ='.$id_espace.' AND parcours.fin=\'000-00-00 00:00:00\' AND stock.identifiant NOT LIKE "CH%" GROUP BY parcours.id_stock ORDER BY type_stock.nom, identifiant');
+         $stocks = $this->sql->select('type_stock.nom as nom, type_stock.conditionnement as conditionnement, stock.id, stock.identifiant, UNIX_TIMESTAMP(stock.entame) as entame, UNIX_TIMESTAMP(stock.fin) as fin', '(`type_stock` INNER JOIN stock ON type_stock.id = stock.id_type_stock) INNER JOIN parcours ON stock.id=parcours.id_stock', 'WHERE parcours.id_espace ='.$id_espace.' AND parcours.fin=\'000-00-00 00:00:00\' GROUP BY parcours.id_stock ORDER BY type_stock.nom, identifiant');
          $prec = '';
          echo "<input type='hidden' name='id_espace' value='".$id_espace."' />";
          foreach ($stocks as $stock) {
@@ -111,7 +111,7 @@ namespace lib;
   public function stock_niveau($id, $id_espace, $sens = 1)
   {
       //on recupère le niveau
-    $stock = $this->sql->select('UNIX_TIMESTAMP(`entame`) as entame, UNIX_TIMESTAMP(`fin`) as fin', 'stock', "WHERE id='".$id."'");
+    $stock = $this->sql->select('UNIX_TIMESTAMP(`entame`) as entame, UNIX_TIMESTAMP(`fin`) as fin', 'stock', "WHERE id='".$id."'")[0];
       if ($sens == 1) {
           if ($stock['entame'] == 0 and $stock['fin'] == 0) {
               $this->sql->update('stock', '`entame` = NOW( )', '`id`='.$id);
@@ -148,7 +148,7 @@ namespace lib;
               } elseif ($req4['gravite'] == 2) {
                   $prob->prob_niveau($req4['id'], $req4['type_prob'], $req4['gravite'], -1);
               }
-          } elseif ($np_total - $nb_plein == 0) {
+          } elseif ($nb_plein == 0) {
               if ($req4['gravite'] == 1) {
                   $prob->prob_niveau($req4['id'], $req4['type_prob'], $req4['gravite'], 1);
               }
