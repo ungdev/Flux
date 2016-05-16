@@ -28,3 +28,8 @@ $route['/admin_problemes'] = [ 'controller' => 'Admin', 'action' => 'Problem'];
 
 $route['/espace'] = [ 'controller' => 'Espace', 'action' => 'home'];
 $route['/chat'] = [ 'controller' => 'Espace', 'action' => 'chat'];
+
+$route['/espace/json'] = [ 'controller' => 'Espace', 'action' => 'Json'];
+$route['/espace/send'] = [ 'controller' => 'Espace', 'action' => 'ChatSend'];
+$route['/espace/problem'] = [ 'controller' => 'Espace', 'action' => 'SetProblem'];
+$route['/espace/flux'] = [ 'controller' => 'Espace', 'action' => 'setItem'];

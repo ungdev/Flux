@@ -7,11 +7,12 @@ class LoginController extends Controller
 
 	public function loginAction() {
 
-		// L'utilisateur vient de soumettre le formulaire, on vérifie s'il n'est pas
-		// déjà connecté ou si
-		if (array_key_exists('utilisateur', $_POST) && array_key_exists('password', $_POST)) {
-			 if ($this->login->checkCredentials($_POST['utilisateur'], $_POST['password'])) {
-				// Redirection vers la bonne page en fonction de ses droits.
+		// If form is submitted
+		$error = false;
+		if (!empty($_POST['login']) && !empty($_POST['password'])) {
+			if ($this->login->checkCredentials($_POST['login'], $_POST['password'])) {
+
+				// Redirect according to rights
 				if ($this->login->testDroit('Admin')) {
 					return ['redirection' => 'admin'];
 				}
@@ -21,12 +22,17 @@ class LoginController extends Controller
 				else {
 					return ['view' => 'errors/403'];
 				}
-			 }
+			}
+			else {
+				$error = true;
+			}
 		}
 
 		return [
 			'view' => 'Login/login',
-			'vars' => []
+			'vars' => [
+				'error' => $error
+			]
 		];
 	}
 

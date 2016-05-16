@@ -1,20 +1,104 @@
 <?php
 
-/*
- *
- * Auteur : Reivax <bernard.xav@gmail.com>
- * Modification : 27/04/09 par SoX
- *
- * Description : Template des espace a themes
- *
- */
-
 //structure de la page
-$css = ['style', 'espace'];
-$js = ['mootools', 'chat'];
+// $css = ['style', 'espace'];
+$css = ['bootstrap.min', 'bootstrap-theme.min', 'style2'];
+$js = ['jquery.min', 'bootstrap.min', 'espace'];
 $title = "Espace à thème";
 ?>
+<div class="row espace">
 
+	<!-- Left sidebar : Problems -->
+	<div class="col-md-3">
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Problèmes</h3>
+			</div>
+			<div class="panel-body" id="problems">
+				Chargement..
+			</div>
+		</div>
+	</div>
+	<!-- Main panel : Flux -->
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="pull-right espace-btnbar">
+					<span class="connexionState">Mise à jour : 12:23:32</span>
+					<button data-toggle="modal" data-target="#help-modal" class="btn btn-sm btn-info"><span class=" glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>
+					<a href="/logout" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-off" aria-hidden="true"></span></a>
+				</div>
+				<h3 class="panel-title">Flux : <?= $vars['espaceName'] ?></h3>
+			</div>
+			<div class="panel-body" id="flux">
+				Chargement..
+			</div>
+		</div>
+	</div>
+	<!-- Richt sidebar : Chat -->
+	<div class="col-md-3">
+
+		<div class="panel panel-default" id="chat-panel">
+			<div class="panel-heading">
+				<h3 class="panel-title">Communication</h3>
+			</div>
+				<div class="panel-body chat-panel-body">
+					<ul class="chat" id="chat">
+						Chargement..
+					</ul>
+				</div>
+				<div class="panel-footer">
+					<div class="input-group">
+						<input id="btn-input" type="text" class="form-control input-sm" placeholder="Entrez votre message ici.."  maxlength="500"/>
+						<span class="input-group-btn">
+							<button class="btn btn-primary btn-sm" id="btn-chat">
+							Envoyer</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="help-modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Aide</h4>
+			</div>
+			<div class="modal-body">
+				<h3>Colonne de gauche : Problèmes</h3>
+				<ul>
+					<li>Te permets de signaler les problémes survenant dans l'EàT.</li>
+					<li>Un click = problème venant de survenir = bouton orange.</li>
+					<li>Second click = problème sur-urgent ! = bouton rouge.</li>
+					<li>Une fois, le problème résolu, clique sur le bouton vert pour signaler sa résolution.</li>
+				</ul>
+				<h3>Colonne du milieu : Stock</h3>
+				<ul>
+					<li>Ca correspond au stock réel de votre EàT.</p>
+					<li>A chaque ouverture d'un produit : un click. Le bouton devient jaune.</li>
+					<li>A chaque produit fini : un click. Le bouton devient rouge.</li>
+					<li>Le bouton vert permet de revenir en arrière en cas d'erreur.</li>
+				</ul>
+				<h3>Colonne de droite : Chat</h3>
+				<ul>
+					<li>A surveiller pendant la soirée.</p>
+					<li>C'est grâce à cela que les orga vous feront passer des messages.</li>
+					<li>Merci de l'utiliser qu'en cas de besoin uniquement (précision de problème par exemple).</li>
+					<li>CA N'EST PAS LA PEINE D'ECRIRE UN PROBLEME QUE VOUS VENEZ DE SIGNALER. MERCI.</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<?php /*
 
 		<div id="probleme">
 			<div class="info"><h1>Problèmes</h1></div>
@@ -97,29 +181,6 @@ $title = "Espace à thème";
 		</ul></div>
 			<div class="center"><h1>Espace de <?php echo $_SESSION['login'] ?></h1></div>
 			<div id="help">
-				<p id="pHelp"><a href="javascript:displayHelp()">X</a></p>
-				<h1>Aide</h1>
-				<h2>Colonne de gauche</h2>
-				<h3>Problèmes</h3>
-					<p>Te permets de signaler les problémes survenant dans l'EàT.</p>
-					<p>Un click = problème venant de survenir = bouton jaune.</p>
-					<p>Second click = problème sur-urgent ! = bouton rouge.</p>
-					<p>Une fois, le problème résolut, c'est à toi de cliquez sur la virgule verte pour signaler sa résolution.</p>
-				<h3>Délestage</h3>
-					<p>Pas touche !</p>
-					<p>Cette zone est réservée au responsable du délestage qui passera régulièrement durant la soirée.</p>
-				<h2>Colonne du milieu</h2>
-				<h3>Stock</h3>
-					<p>Ca correspond au stock réel de votre EàT. Cette colonne sera donc mis à jour automatiquement au cours de la soirée.</p>
-					<p>A chaque ouverture d'un produit : un click. Le bouton devient jaune.</p>
-					<p>A chaque produit fini : un click. Le bouton devient rouge.</p>
-					<p>La flèche verte permet de revenir en arrière en cas d'erreur.</p>
-				<h2>Colonne de droite</h2>
-				<h3>Chat</h3>
-					<p>A surveiller pendant la soirée.</p>
-					<p>C'est grâce à cela que les orga vous feront passer des messages.</p>
-					<p>Merci de l'utiliser qu'en cas de besoin uniquement (précision de problème par exemple).</p>
-					<p>CA N'EST PAS LA PEINE D'ECRIRE UN PROBLEME QUE VOUS VENEZ DE SIGNALER. MERCI.</p>
 			</div>
 			<div class="bloc_flux">
 				<form method="post" action="?action=flux">
@@ -127,3 +188,5 @@ $title = "Espace à thème";
 			</form>
 		</div>
 	</div>
+
+*/?>

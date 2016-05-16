@@ -1,112 +1,41 @@
-div.login-all {
-	background:transparent url(../images/bg_banner.png) no-repeat scroll -500px 50%;
-	border-left:1px solid #DDDDDD;
-	border-right:1px solid #DDDDDD;
-	margin:100px auto 20px;
-	padding:0;
-	text-align:left;
-	width:715px;
+body {
+	padding-top: 40px;
+	padding-bottom: 40px;
+	background-color: #eee;
 }
-div.login-all .info {
-	background:#FFFFFF url(../images/itenmenucontainer.gif) no-repeat scroll right top;
-	float:left;
-	height:auto;
-	margin:0;
-	padding:0;
-	width:350px;
+
+.form-signin {
+	max-width: 330px;
+	padding: 15px;
+	margin: 0 auto;
 }
-.info p, .info ol li {
-	list-style-image:none;
-	list-style-position:inside;
-	list-style-type:decimal;
-	margin:0;
-	padding:2px;
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+	margin-bottom: 10px;
 }
-.centerLogin #img {
-	background:transparent url(../images/Login.gif) no-repeat scroll 5px 5px;
-	color:#628103;
-	display:block;
-	font-size:1em;
-	font-weight:bold;
-	padding-bottom:25px;
-	padding-left:70px;
-	padding-top:25px;
+.form-signin .checkbox {
+	font-weight: normal;
 }
-.centerLogin span {
-	font-weight:bold;
-	margin-top:50px;
-	padding-left:50px;
+.form-signin .form-control {
+	position: relative;
+	height: auto;
+	box-sizing: border-box;
+	padding: 10px;
+	font-size: 16px;
 }
-.login {
-	background:#FFFFFF url(../images/itenmenucontainer.gif) no-repeat scroll left top;
-	float:right;
-	margin:0;
-	padding-bottom:50px;
-	width:350px;
+.form-signin .form-control:focus {
+	z-index: 2;
 }
-.login-footer {
-	clear:both;
-	height:50px;
-	width:auto;
+.form-signin input[type="text"] {
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
 }
-#centerLogin, .centerLogin {
-	height:100%;
-	margin:0;
-	padding:10px 5px;
+.form-signin input[type="password"] {
+	margin-bottom: -1px;
+	border-radius: 0;
 }
-div.formcontainer {
-	margin:0;
-	overflow:hidden;
-	padding:10px;
-}
-div.erroLogin {
-	background:#FEDADA url(../images/stop.gif) no-repeat scroll 5px 5px;
-	border:1px solid #FD9999;
-	color:#000000;
-	font-weight:bold;
-	height:1%;
-	margin:2px 2px 5px;
-	padding:10px 10px 10px 35px;
-	width:auto;
-}
-div.lbfieldstext {
-	float:left;
-	font-size:0.8em;
-	margin-left:10px;
-	margin-top:10px;
-	text-align:right;
-}
-div.login-fields {
-	float:left;
-	margin-left:10px;
-	padding-left:10px;
-}
-div.login-fields input.loginsubmit {
-	margin-top:5px;
-}
-div.formcontainer #lbpassword, div.formcontainer #lbusername {
-	margin-top:5px;
-	width:120px;
-}
-input.order {
-	font-size:1em;
-	text-align:center;
-	width:2em;
-}
-p.lbuser {
-	color:#555555;
-	font-size:1.2em;
-}
-p.lbpass {
-	color:#555555;
-	font-size:1.2em;
-	margin-top:10px;
-}
-div.topmenucontainer {
-	background-color:#243135;
-	border-top:1px solid #3F565C;
-	height:1%;
-	margin:0;
-	padding:0;
-	width:auto;
+.form-signin input[type="submit"] {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 }

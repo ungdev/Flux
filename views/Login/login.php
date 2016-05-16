@@ -10,47 +10,21 @@
  */
 
 //structure de la page
-$css = ['style','login'];
+$css = ['login'];
 $js = [];
-$title = "Authentification";
+$title = "Connexion";
+
 ?>
-
-<div class="login-all">
-
-	<div class="info">
-		<h1>Information</h1>
-		<div class="centerLogin">
-			<p id="img">A savoir&nbsp;:</p>
-			<ol>
-				<li>Connectez-vous avec l'utilisateur et le mot de passe que le Gala vous a donné</li>
-				<li>Si vous souhaitez avoir un accès, contactez l'équipe Gala</li>
-				<li>En cas de problème, merci de contacter l'équipe Gala</li>
-			</ol>
-		</div>
-	</div>
-
-	<div class="login">
-		<div class="top"><h1>Connexion &agrave; FluxManager</h1></div>
-		<div id="centerLogin" class="formcontainer">
-			<?php if(isset($_POST['utilisateur'])) { ?>
-			<div class="erroLogin">Nom d'utilisateur ou mot de passe incorrect</div>
-			<?php } ?>
-			<div class="lbfieldstext">
-				<p class="lbuser">Nom d'utilisateur&nbsp;:</p>
-				<p class="lbpass">Mot de passe&nbsp;:</p>
-			</div>
-
-			<div class="login-fields">
-				<form method="post" action="">
-					<p>
-						<input id="lbusername" name="utilisateur" class="defaultfocus" size="15" value="<?php if(isset($_POST['utilisateur'])) echo $_POST['utilisateur'] ?>" type="text"><br>
-						<input id="lbpassword" name="password" size="15" type="password"><br>
-						<input class="loginsubmit" name="loginsubmit" value="Envoyer" type="submit">
-						<input class="loginsubmit" name="efface" value="Effacer" type="reset" />
-					</p>
-				</form>
-			</div>
-		</div>
-	</div>
-
+<div class="container">
+	<form class="form-signin" method="post" action="">
+		<h2 class="form-signin-heading"><?= $conf['app_name'] ?></h2>
+		<?php if ($vars['error']) { ?>
+			<div class="alert alert-danger" role="alert">Erreur dans l'identifiant ou le mot de passe</div>
+		<?php } ?>
+		<label for="inputLogin" class="sr-only">Identifiant</label>
+		<input type="text" id="inputLogin" name="login" class="form-control" placeholder="Identifiant" required autofocus>
+		<label for="inputPassword" class="sr-only">Mot de passe</label>
+		<input type="password" id="inputPassword" name="password" class="form-control" placeholder="Mot de passe" required>
+		<input class="btn btn-lg btn-primary btn-block" type="submit" value="Se connecter"/>
+	</form>
 </div>

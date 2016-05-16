@@ -1,10 +1,9 @@
-<?php foreach (($css??[]) as $value): ?>
-	<link href="<?= $conf['web_uri'].'css/'.$value.'.css' ?>" rel="stylesheet"/>
-<?php endforeach; ?>
+<?php foreach (($css??[]) as $value) {
+	echo '<link href="'.$conf['web_uri'].'css/'.$value.'.css" rel="stylesheet"/>';
+}
 
-<?= $content ?>
+echo $content;
 
-<?php foreach (($js??[]) as $value): ?>
-	test
-	<script src="<?= $conf['web_uri'].'js/'.$value.'.js' ?>"></script>
-<?php endforeach; ?>
+foreach (($js??[]) as $value) {
+	echo '<script src="'.$conf['web_uri'].'js/'.$value.'.js"></script>';
+}

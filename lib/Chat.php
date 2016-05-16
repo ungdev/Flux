@@ -64,7 +64,7 @@ class Chat
       $select_droits = 'id_droit = '.implode(' OR id_droit = ', $this->id_droit);
 
       //on récupère les messages avec en id_expediteur ou en id_destinataire le gars, et aussi ceux dont il a le droit
-      $query = $this->sql->query('SELECT login, UNIX_TIMESTAMP(`date`) as date, message FROM chat LEFT JOIN utilisateur ON (chat.id_expediteur = utilisateur.id) WHERE id_destinataire = '.$this->id_utilisateur.' OR id_expediteur = '.$this->id_utilisateur.' OR '.$select_droits.' ORDER BY date');
+      $query = $this->sql->query('SELECT id, login, UNIX_TIMESTAMP(`date`) as date, message FROM chat LEFT JOIN utilisateur ON (chat.id_expediteur = utilisateur.id) WHERE id_destinataire = '.$this->id_utilisateur.' OR id_expediteur = '.$this->id_utilisateur.' OR '.$select_droits.' ORDER BY date');
         echo '<ul>';
         while ($value = mysqli_fetch_assoc($query)) {
             echo '<li><strong>'.$value['login'].'</strong> (<em>'.date('H:i:s', $value['date']).'</em>) : <br />'.html_entity_decode($value['message']).'</li>';

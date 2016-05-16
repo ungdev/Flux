@@ -1,0 +1,105 @@
+body {
+	padding: 5px;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+.espace .btn-problem {
+	text-align: left;
+	margin: 0 0 10px 0;
+	display:block;
+	width: 100%;
+}
+.espace .btn-group-problem {
+	margin: 0 0 10px 0;
+	width:100%;
+}
+.espace .btn-group-problem .btn {
+	border-radius: 0 !important;
+}
+.espace .btn-group-problem > .btn:last-child {
+	text-align: left;
+	display:block;
+	float:initial;
+	margin-right:40px;
+	border-top-left-radius: 4px !important;
+	border-bottom-left-radius: 4px !important;
+}
+.espace .btn-group-problem > .btn:first-child {
+	width:40px;
+	float:right;
+	border-top-right-radius: 4px !important;
+	border-bottom-right-radius: 4px !important;
+}
+
+.espace .list-group .list-group-item {
+	height: 42px;
+	overflow: hidden;
+}
+
+.espace .list-group .btn {
+	width: 40px;
+	height: 42px;
+	line-height: 40px;
+	padding: 0;
+	float: right;
+	overflow: hidden;
+	border-bottom-left-radius: 0px;
+	border-top-left-radius: 0px;
+	clear:both;
+}
+.espace .list-group .btn:last-of-type {
+	background-color:red;
+	border-bottom-right-radius: 4px;
+}
+
+.espace .espace-btnbar {
+	margin-top: -7px;
+	margin-right:-10px;
+}
+
+.espace .panel-body
+{
+	height: 300px;
+	height: calc(100vh - 110px);
+	overflow-y: auto;
+}
+
+.espace .connexionState {
+	color: #444;
+	font-size:0.8em;
+	margin-right:10px;
+}
+
+
+/* ---- Chat ---- */
+.chat
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.chat li
+{
+	margin-bottom: 3px;
+	padding-bottom: 3px;
+	border-bottom: 1px dotted #B3A9A9;
+}
+
+.chat li.left .chat-body
+{
+	margin-left: 60px;
+}
+
+.chat li.right .chat-body
+{
+	margin-right: 60px;
+}
+
+
+.chat li .chat-body span
+{
+	margin: 0;
+	color: #777777;
+}
