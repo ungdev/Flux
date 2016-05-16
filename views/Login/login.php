@@ -1,14 +1,4 @@
 <?php
-
-/*
- *
- * Auteur : Reivax <bernard.xav@gmail.com>
- * Modification : 24/04/09 par ReivaX
- *
- * Description : Template de la page d'authentification
- *
- */
-
 //structure de la page
 $css = ['bootstrap.min', 'bootstrap-theme.min', 'login'];
 $js = ['jquery.min', 'bootstrap.min'];
