@@ -72,6 +72,9 @@ var refresh = function(again){
 			{
 				var currentCat = -1;
 				var html = '';
+				if(data.problemList.length <= 0) {
+					html += 'Impossible de signaler un problème.'
+				}
 				for (var cat in data.problemList) {
 					if (data.problemList.hasOwnProperty(cat)) {
 						var val = data.problemList[cat];
@@ -109,6 +112,9 @@ var refresh = function(again){
 			{
 				currentCat = -1;
 				html = '';
+				if(data.fluxList.length <= 0) {
+					html += 'Aucun élément assigné à cet espace.'
+				}
 				for (var cat in data.fluxList) {
 					if (data.fluxList.hasOwnProperty(cat)) {
 						var val = data.fluxList[cat];
@@ -158,6 +164,9 @@ var refresh = function(again){
 			{
 				currentCat = -1;
 				html = '';
+				if(data.messageList.length <= 0) {
+					html += 'Aucun message..'
+				}
 				for (var msg in data.messageList) {
 					if (data.messageList.hasOwnProperty(msg)) {
 						var val = data.messageList[msg];
@@ -194,6 +203,9 @@ var refresh = function(again){
 			{
 				var currentEspace = -1;
 				var html = '';
+				if(data.globalProblemList.length <= 0) {
+					html += 'Aucun problème signalé ...'
+				}
 				for (var index in data.globalProblemList) {
 					if (data.globalProblemList.hasOwnProperty(index)) {
 						var val = data.globalProblemList[index];
