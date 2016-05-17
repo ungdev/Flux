@@ -98,4 +98,22 @@ class Chat extends Model
 		]);
 		return $sth;
 	}
+
+	public function droitMessageListForAdmin($droitId) {
+
+		$sth = $this->db->prepare(
+			'SELECT c.id, u.login, UNIX_TIMESTAMP(c.`date`) as date, c.message, d.nom as droit
+			FROM chat c
+			LEFT JOIN utilisateur u
+				ON (c.id_expediteur = u.id)
+			LEFT JOIN droit d
+				ON (c.id_droit = d.id)
+			WHERE id_droit = :droitId
+			ORDER BY date ASC');
+
+		$sth->execute([
+			':droitId' => $droitId
+		]);
+		return $sth;
+	}
 }

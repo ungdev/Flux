@@ -9,6 +9,33 @@ $title = "Panneau d'admin";
 	<div class="col-md-9" id="panel-container">
 
 
+
+		<!-- Panel used when on chat-user click -->
+		<div class="row espace" id="chat-group">
+			<div class="col-md-12">
+
+				<div class="panel panel-default chat-panel">
+					<div class="panel-heading">
+						<h3 class="panel-title">Communication</h3>
+					</div>
+					<div class="panel-body chat-panel-body">
+						<ul class="chat">
+							Chargement..
+						</ul>
+					</div>
+					<div class="panel-footer">
+						<div class="input-group">
+							<input type="text" class="form-control input-sm" placeholder="Entrez votre message ici.."  maxlength="500"/>
+							<span class="input-group-btn">
+								<button class="btn btn-primary btn-sm">
+								Envoyer</button>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<!-- Panel used when on chat-user click -->
 		<div class="row espace" id="chat-user">
 			<!-- Left sidebar : Problems -->
@@ -36,20 +63,20 @@ $title = "Panneau d'admin";
 			<!-- Richt sidebar : Chat -->
 			<div class="col-md-4">
 
-				<div class="panel panel-default" id="chat-panel">
+				<div class="panel panel-default chat-panel">
 					<div class="panel-heading">
 						<h3 class="panel-title">Communication</h3>
 					</div>
 					<div class="panel-body chat-panel-body">
-						<ul class="chat" id="chat">
+						<ul class="chat">
 							Chargement..
 						</ul>
 					</div>
 					<div class="panel-footer">
 						<div class="input-group">
-							<input id="btn-input" type="text" class="form-control input-sm" placeholder="Entrez votre message ici.."  maxlength="500"/>
+							<input type="text" class="form-control input-sm" placeholder="Entrez votre message ici.."  maxlength="500"/>
 							<span class="input-group-btn">
-								<button class="btn btn-primary btn-sm" id="btn-chat">
+								<button class="btn btn-primary btn-sm">
 								Envoyer</button>
 							</span>
 						</div>

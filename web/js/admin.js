@@ -44,7 +44,7 @@ var refresh = function(again){
 				if (data.droitChannelList.hasOwnProperty(chan)) {
 					var val = data.droitChannelList[chan];
 
-					html += '<a href="#chat-group-'+val.nom+'" class="list-group-item" data-btnname="chat-group-'+val.nom+'" data-panel="chat-group" data-lastid="'+val.messageId+'" data-lastauthorid="'+val.messageAuthorId+'">'+val.nom+'</a>';
+					html += '<a href="#chat-group-'+val.nom+'" class="list-group-item" data-btnname="chat-group-'+val.nom+'" data-targetid="'+val.id+'" data-panel="chat-group" data-lastid="'+val.messageId+'" data-lastauthorid="'+val.messageAuthorId+'">'+val.nom+'</a>';
 				}
 			}
 			html += '</div>';
@@ -156,8 +156,11 @@ var refresh = function(again){
 			}
 		}
 		if(data.messageList) {
-			var lastId = data.messageList[data.messageList.length-1].id;
-			if($('#chat').data('lastId') === undefined || $('#chat').data('lastId') != lastId)
+			var lastId = 0;
+			if(data.messageList.length > 0) {
+				var lastId = data.messageList[data.messageList.length-1].id;
+			}
+			if($('.chat').data('lastId') === undefined || $('.chat').data('lastId') != lastId)
 			{
 				currentCat = -1;
 				html = '';
@@ -183,9 +186,13 @@ var refresh = function(again){
 					}
 				}
 				html += '</div>';
-				$('#chat').html(html);
-				$('#chat').data('lastId', lastId)
-				$('#chat').parent().scrollTop( $('#chat').height() - $('#chat').parent().height() );
+				$('.chat').html(html);
+				$('.chat').data('lastId', lastId)
+				$('.chat').each(function() {
+					var parent = $(this).parent();
+					var chat = $(this);
+					parent.scrollTop( chat.height() - parent.height() );
+				})
 			}
 		}
 
@@ -205,7 +212,7 @@ var refresh = function(again){
 
 		$('.connexionState').html('Mise à jour : ' + (new Date()).toLocaleTimeString())
 		$('.connexionState').css('color', '#444');
-		$('#chat-panel').find('input').prop('disabled', false);
+		$('.chat-panel').find('input').prop('disabled', false);
 
 	})
 	.fail(function() {
@@ -273,13 +280,16 @@ var tabClick = function(button) {
 		localStorage.setItem('adminChatLastId-'+button.data('btnname'), (button.data('lastid')+''));
 	}
 
+	// Force chat Refresh
+	$('.chat').data('lastId', '-1');
+
 	// Refresh everything
 	refresh(false);
 }
 
 // Chat send message
-var input = $('#chat-panel').find('input');
-function sendMessage() {
+var input = $('.chat-panel').find('input');
+function sendMessage(input) {
 	var val = input.val();
 	if(val.length >= 1) {
 		$.post('/admin/send', {'message' : val, 'target' : targetId, 'panel': currentPanel}, function(){ refresh(false); })
@@ -289,10 +299,12 @@ function sendMessage() {
 	}
 }
 // Event that send message
-$('#chat-panel').find('button').click(sendMessage);
+$('.chat-panel').find('button').click(function() {
+	sendMessage($(this).parent().parent().find('input'));
+});
 input.keypress(function (e) {
 	if (e.which == 13) {
-		sendMessage()
+		sendMessage($(this))
 		return false;
 	}
 });

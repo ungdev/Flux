@@ -65,6 +65,10 @@ class AdminController extends Controller
 				$json['fluxList'] = $fluxModel->listForEspace($json['espace']['id'])->fetchAll(\PDO::FETCH_ASSOC);
 				$json['messageList'] = $chatModel->messageListForEspace($_GET['id'])->fetchAll(\PDO::FETCH_ASSOC);
 			}
+			else if($_GET['panel'] == 'chat-group' && !empty($_GET['id'])) {
+
+				$json['messageList'] = $chatModel->droitMessageListForAdmin($_GET['id'])->fetchAll(\PDO::FETCH_ASSOC);
+			}
 		}
 
 		return [
