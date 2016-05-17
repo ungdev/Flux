@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Lun 16 Mai 2016 à 02:47
+-- Généré le :  Mer 18 Mai 2016 à 00:39
 -- Version du serveur :  10.0.23-MariaDB-0+deb8u1-log
 -- Version de PHP :  5.6.20-0+deb8u1
 
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `chat` (
   `id_droit` int(3) DEFAULT NULL COMMENT 'on peut aussi parler à tout un droit :)',
   `date` datetime NOT NULL,
   `message` text CHARACTER SET utf8 NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Contenu de la table `chat`
@@ -95,7 +95,8 @@ INSERT INTO `chat` (`id`, `id_expediteur`, `id_destinataire`, `id_droit`, `date`
 (1, 2, NULL, NULL, '2016-05-16 02:45:39', 'Hello depuis l''UNG !'),
 (2, 1, 2, NULL, '2016-05-16 02:46:04', 'Hello l''UNG (seulement)'),
 (4, 1, NULL, 1, '2016-05-16 02:47:03', 'Hello les admins'),
-(5, 1, NULL, 2, '2016-05-16 02:47:09', 'Hello général !');
+(5, 1, NULL, 2, '2016-05-16 02:47:09', 'Hello général !'),
+(6, 1, NULL, 3, '2016-05-18 00:39:16', 'Bonjour les vendeurs d''UTs !');
 
 -- --------------------------------------------------------
 
@@ -122,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `droit` (
   `nom` varchar(20) NOT NULL,
   `type` tinyint(1) NOT NULL COMMENT 'Admin = 1; Espace = 0',
   `liste` tinyint(1) NOT NULL COMMENT '1 = liste de discussion en +'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Info Droit';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Info Droit';
 
 --
 -- Contenu de la table `droit`
@@ -130,7 +131,8 @@ CREATE TABLE IF NOT EXISTS `droit` (
 
 INSERT INTO `droit` (`id`, `nom`, `type`, `liste`) VALUES
 (1, 'Admin', 1, 1),
-(2, 'Bar', 0, 1);
+(2, 'Bar', 0, 1),
+(3, 'Jeton', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -145,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `espace` (
   `id_type_espace` int(1) NOT NULL,
   `id_utilisateur` int(3) NOT NULL,
   `etat` tinyint(1) NOT NULL COMMENT '1 = ouvert ; 0 = fermé'
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='Info Espace';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='Info Espace';
 
 --
 -- Contenu de la table `espace`
@@ -162,7 +164,10 @@ INSERT INTO `espace` (`id`, `nom`, `lieu`, `id_type_espace`, `id_utilisateur`, `
 (8, 'Amical/ASANUTT', 'M104', 1, 16, 1),
 (9, 'Revivre', 'A002', 1, 17, 1),
 (10, 'Puls/C-Biere', 'B105', 1, 18, 1),
-(11, 'MACC', 'C102', 1, 19, 1);
+(11, 'MACC', 'C102', 1, 19, 1),
+(12, 'Jeton Etu', 'Hall Etu', 3, 25, 1),
+(13, 'Jeton Entrée', 'Entrée', 3, 26, 1),
+(14, 'Jeton Accueil', 'Accueil', 3, 24, 1);
 
 -- --------------------------------------------------------
 
@@ -174,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `liste_droit` (
 `id` int(3) NOT NULL,
   `id_utilisateur` int(3) NOT NULL,
   `id_droit` int(3) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='droit par utilisateur';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='droit par utilisateur';
 
 --
 -- Contenu de la table `liste_droit`
@@ -192,7 +197,13 @@ INSERT INTO `liste_droit` (`id`, `id_utilisateur`, `id_droit`) VALUES
 (9, 14, 2),
 (10, 18, 2),
 (11, 17, 2),
-(12, 12, 2);
+(12, 12, 2),
+(13, 21, 1),
+(14, 23, 1),
+(15, 22, 1),
+(16, 26, 3),
+(17, 24, 3),
+(18, 25, 3);
 
 -- --------------------------------------------------------
 
@@ -206,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `liste_prob` (
   `id_espace` int(3) NOT NULL,
   `gravite` int(1) NOT NULL COMMENT 'Gravité de la situation : OK = 0; moyen = 1; grave = 2.',
   `auteur` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT 'Personne en charge du problème'
-) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8 COMMENT='Problèmes en cours';
+) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8 COMMENT='Problèmes en cours';
 
 --
 -- Contenu de la table `liste_prob`
@@ -334,7 +345,40 @@ INSERT INTO `liste_prob` (`id`, `id_type_prob`, `id_espace`, `gravite`, `auteur`
 (120, 13, 9, 0, NULL),
 (121, 13, 10, 0, NULL),
 (122, 13, 11, 0, NULL),
-(123, 14, 3, 1, NULL);
+(123, 14, 3, 1, NULL),
+(124, 1, 12, 0, NULL),
+(125, 2, 12, 0, NULL),
+(126, 3, 12, 0, NULL),
+(127, 4, 12, 0, NULL),
+(128, 6, 12, 0, NULL),
+(129, 7, 12, 0, NULL),
+(130, 8, 12, 0, NULL),
+(131, 9, 12, 0, NULL),
+(132, 10, 12, 0, NULL),
+(133, 11, 12, 0, NULL),
+(134, 13, 12, 0, NULL),
+(135, 1, 13, 0, NULL),
+(136, 2, 13, 0, NULL),
+(137, 3, 13, 0, NULL),
+(138, 4, 13, 0, NULL),
+(139, 6, 13, 0, NULL),
+(140, 7, 13, 0, NULL),
+(141, 8, 13, 0, NULL),
+(142, 9, 13, 0, NULL),
+(143, 10, 13, 0, NULL),
+(144, 11, 13, 0, NULL),
+(145, 13, 13, 0, NULL),
+(146, 1, 14, 0, NULL),
+(147, 2, 14, 0, NULL),
+(148, 3, 14, 0, NULL),
+(149, 4, 14, 0, NULL),
+(150, 6, 14, 0, NULL),
+(151, 7, 14, 0, NULL),
+(152, 8, 14, 0, NULL),
+(153, 9, 14, 0, NULL),
+(154, 10, 14, 0, NULL),
+(155, 11, 14, 0, NULL),
+(156, 13, 14, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -670,14 +714,14 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `login` varchar(10) NOT NULL,
   `pass` varchar(255) NOT NULL,
   `derniere_connexion` datetime DEFAULT NULL COMMENT 'pour savoir qui est connecté...'
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COMMENT='Info Utilisateur';
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COMMENT='Info Utilisateur';
 
 --
 -- Contenu de la table `utilisateur`
 --
 
 INSERT INTO `utilisateur` (`id`, `login`, `pass`, `derniere_connexion`) VALUES
-(1, 'admin', 'ab35ba20c808c1119d00adb45bb55e31ae66ec59', NULL),
+(1, 'admin', 'ab35ba20c808c1119d00adb45bb55e31ae66ec59', '2016-05-18 00:39:43'),
 (2, 'ung', 'ab35ba20c808c1119d00adb45bb55e31ae66ec59', '2016-05-16 02:47:17'),
 (10, 'interlink', 'ab35ba20c808c1119d00adb45bb55e31ae66ec59', NULL),
 (11, 'ism', 'ab35ba20c808c1119d00adb45bb55e31ae66ec59', NULL),
@@ -688,7 +732,13 @@ INSERT INTO `utilisateur` (`id`, `login`, `pass`, `derniere_connexion`) VALUES
 (16, 'asanutt', 'ab35ba20c808c1119d00adb45bb55e31ae66ec59', NULL),
 (17, 'revivre', 'ab35ba20c808c1119d00adb45bb55e31ae66ec59', NULL),
 (18, 'puls', 'ab35ba20c808c1119d00adb45bb55e31ae66ec59', NULL),
-(19, 'macc', 'ab35ba20c808c1119d00adb45bb55e31ae66ec59', NULL);
+(19, 'macc', 'ab35ba20c808c1119d00adb45bb55e31ae66ec59', NULL),
+(21, 'coord', 'ab35ba20c808c1119d00adb45bb55e31ae66ec59', NULL),
+(22, 'log', 'ab35ba20c808c1119d00adb45bb55e31ae66ec59', NULL),
+(23, 'tech', 'ab35ba20c808c1119d00adb45bb55e31ae66ec59', NULL),
+(24, 'accueil', 'ab35ba20c808c1119d00adb45bb55e31ae66ec59', NULL),
+(25, 'etu', 'ab35ba20c808c1119d00adb45bb55e31ae66ec59', NULL),
+(26, 'entree', 'ab35ba20c808c1119d00adb45bb55e31ae66ec59', NULL);
 
 --
 -- Index pour les tables exportées
@@ -796,7 +846,7 @@ MODIFY `id` int(3) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 -- AUTO_INCREMENT pour la table `chat`
 --
 ALTER TABLE `chat`
-MODIFY `id` int(3) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `id` int(3) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT pour la table `delestage`
 --
@@ -806,22 +856,22 @@ MODIFY `id` int(3) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT pour la table `droit`
 --
 ALTER TABLE `droit`
-MODIFY `id` int(3) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id` int(3) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT pour la table `espace`
 --
 ALTER TABLE `espace`
-MODIFY `id` int(3) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+MODIFY `id` int(3) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT pour la table `liste_droit`
 --
 ALTER TABLE `liste_droit`
-MODIFY `id` int(3) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+MODIFY `id` int(3) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT pour la table `liste_prob`
 --
 ALTER TABLE `liste_prob`
-MODIFY `id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=124;
+MODIFY `id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=157;
 --
 -- AUTO_INCREMENT pour la table `parcours`
 --
@@ -851,7 +901,7 @@ MODIFY `id` int(3) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 -- AUTO_INCREMENT pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-MODIFY `id` int(3) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+MODIFY `id` int(3) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
 --
 -- Contraintes pour les tables exportées
 --
