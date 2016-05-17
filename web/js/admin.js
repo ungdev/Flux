@@ -1,6 +1,7 @@
 var currentPanel = '';
 var currentBtnName = '';
 var targetId = 0;
+var currentHash = '';
 
 // Started every 3 seconds
 var refresh = function(again){
@@ -35,7 +36,7 @@ var refresh = function(again){
 					else {
 						html += '<span class="logged-out">&bull;</span>'
 					}
-					html += val.login+'</a>';
+					html += val.nom+'</a>';
 				}
 			}
 
@@ -50,13 +51,6 @@ var refresh = function(again){
 			html += '</div>';
 			$('#channels').html(html);
 		}
-
-
-		// On tab click
-		$('#panel-menu .list-group-item').off('click', null);
-		$('#panel-menu .list-group-item').on('click', null, function() {
-			tabClick($(this));
-		});
 
 		// Active the button
 		$('#panel-menu .list-group-item').each(function() {
@@ -195,14 +189,84 @@ var refresh = function(again){
 				})
 			}
 		}
+		if(data.globalProblemList) {
+			if($('#global-problems').data('array') === undefined || $('#global-problems').data('array') != JSON.stringify(data.globalProblemList))
+			{
+				var currentEspace = -1;
+				var html = '';
+				for (var index in data.globalProblemList) {
+					if (data.globalProblemList.hasOwnProperty(index)) {
+						var val = data.globalProblemList[index];
 
-		// Restore from a #link
-		if(!currentBtnName && window.location.hash && window.location.hash.length > 0) {
+						// Print category name once
+						if(currentEspace != val.espaceId) {
+							if(currentEspace != -1) {
+								html += '</div>';
+							}
+							currentEspace = val.espaceId;
+							html += '<h4>'+val.espaceName+'</h4><div class="row">';
+						}
+
+						var progress = 'default';
+						if(val.progress == '1') {
+							progress = 'primary';
+						}
+						console.log(val);
+
+						if(val.gravite == 2) {
+							html += '<div class="col-md-4"><div class="btn-group btn-group-problem3" role="group">'
+								+ '<a href="#chat-user-'+val.login+'" class="btn btn-default" title="Voir l\'EAT"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>'
+								+ '<a href="/admin/progress?id='+ val.id +'&btn='+currentBtnName+'" class="btn btn-'+progress+' linkToAjax" title="Indiquer que quelqu\'un s\'en charge"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>'
+								+ '<a href="/admin/problem?type='+ val.id_type_prob +'&espace='+val.espaceId+'&gravite=0&btn='+currentBtnName+'" class="btn btn-success linkToAjax" title="Indiquer comme résolu"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>'
+								+ '<span class="btn btn-danger linkToAjax" title="Indiquer comment terminé">'+ val.nom +'</span>'
+								+ '</div></div>';
+						}
+						else if(val.gravite == 1) {
+							html += '<div class="col-md-4"><div class="btn-group btn-group-problem3" role="group">'
+								+ '<a href="#chat-user-'+val.login+'" class="btn btn-default" title="Voir l\'EAT"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>'
+								+ '<a href="/admin/progress?id='+ val.id +'&btn='+currentBtnName+'" class="btn btn-'+progress+' linkToAjax" title="Indiquer que quelqu\'un s\'en charge"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>'
+								+ '<a href="/admin/problem?type='+ val.id_type_prob +'&espace='+val.espaceId+'&gravite=0&btn='+currentBtnName+'" class="btn btn-success linkToAjax" title="Indiquer comme résolu"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>'
+								+ '<span class="btn btn-warning linkToAjax" title="Indiquer comment terminé">'+ val.nom +'</span>'
+								+ '</div></div>';
+						}
+					}
+				}
+				$('#global-problems-container').html(html);
+				$('#global-problems').data('array', JSON.stringify(data.globalProblemList))
+			}
+		}
+
+		// Change according to a #link
+		if(window.location.hash && window.location.hash.length > 0 && currentHash !=  window.location.hash) {
 			$('#panel-menu .list-group-item').each(function() {
 				if(window.location.hash.substring(1) == $(this).data('btnname')) {
-					tabClick($(this));
+					var button = $(this);
+					// We found an associated button
+					$('#panel-container').children().each(function(){
+						$(this).css('display', 'none');
+					})
+
+					// Show the panel
+					if(button.data('panel') !== undefined && button.data('btnname') !== undefined) {
+						$('#' + button.data('panel')).css('display', 'block');
+						currentPanel = button.data('panel');
+						currentBtnName = button.data('btnname');
+						targetId = button.data('targetid');
+					}
+
+					// Disable notification on click
+					if(button.data('lastid') !== undefined) {
+						localStorage.setItem('adminChatLastId-'+button.data('btnname'), (button.data('lastid')+''));
+					}
+
+					// Force chat Refresh
+					$('.chat').data('lastId', '-1');
+
+					// Refresh everything
+					refresh(false);
 				}
 			})
+			currentHash = window.location.hash;
 		}
 
 		// Recreate the link to ajax Event for every new items
@@ -257,36 +321,6 @@ setInterval(function () {
 
 }, 500);
 
-// Started when user click on a button
-var tabClick = function(button) {
-	$('#panel-container').children().each(function(){
-		$(this).css('display', 'none');
-	})
-
-	if(!button) {
-		return;
-	}
-
-	// Show the panel
-	if(button.data('panel') !== undefined && button.data('btnname') !== undefined) {
-		$('#' + button.data('panel')).css('display', 'block');
-		currentPanel = button.data('panel');
-		currentBtnName = button.data('btnname');
-		targetId = button.data('targetid');
-	}
-
-	// Disable notification on click
-	if(button.data('lastid') !== undefined) {
-		localStorage.setItem('adminChatLastId-'+button.data('btnname'), (button.data('lastid')+''));
-	}
-
-	// Force chat Refresh
-	$('.chat').data('lastId', '-1');
-
-	// Refresh everything
-	refresh(false);
-}
-
 // Chat send message
 var input = $('.chat-panel').find('input');
 function sendMessage(input) {
@@ -315,8 +349,12 @@ function linkToAjax() {
 	return false;
 }
 
+// Refresh on #link change
+window.onhashchange = function() {
+	refresh(false);
+}
+
 // Init
 $(function() {
-	tabClick();
 	refresh();
 })

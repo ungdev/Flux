@@ -69,6 +69,11 @@ class AdminController extends Controller
 
 				$json['messageList'] = $chatModel->droitMessageListForAdmin($_GET['id'])->fetchAll(\PDO::FETCH_ASSOC);
 			}
+			else if($_GET['panel'] == 'global-problems') {
+
+				$problemModel = new Problem();
+				$json['globalProblemList'] = $problemModel->listForAdmin()->fetchAll(\PDO::FETCH_ASSOC);
+			}
 		}
 
 		return [
@@ -151,6 +156,29 @@ class AdminController extends Controller
 		// Update manque auto
 		$fluxModel->updateManqueAuto($_GET['stock'], $_GET['espace']);
 
+
+		return ['redirection' => 'admin#'.$_GET['btn']];
+	}
+
+
+
+	public function toggleProgessAction() {
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
+			return [
+				'view' => 'errors/403'
+			];
+		}
+
+		$problemModel = new Problem();
+		// Check rights and if item is in espace
+		if(empty($_GET['id'])) {
+			return [
+				'view' => 'errors/403'
+			];
+		}
+
+		// Set item in progress
+		$problemModel->toggleInProgress($_GET['id']);
 
 		return ['redirection' => 'admin#'.$_GET['btn']];
 	}

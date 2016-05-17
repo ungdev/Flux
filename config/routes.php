@@ -38,3 +38,4 @@ $route['/admin/json'] = [ 'controller' => 'Admin', 'action' => 'Json'];
 $route['/admin/send'] = [ 'controller' => 'Admin', 'action' => 'ChatSend'];
 $route['/admin/problem'] = [ 'controller' => 'Admin', 'action' => 'SetProblem'];
 $route['/admin/flux'] = [ 'controller' => 'Admin', 'action' => 'SetItem'];
+$route['/admin/progress'] = [ 'controller' => 'Admin', 'action' => 'toggleProgess'];

@@ -58,7 +58,7 @@ class Chat extends Model
 
 	public function espaceChannelListForAdmin() {
 		$sth = $this->db->prepare(
-			'SELECT u.id, login, UNIX_TIMESTAMP(`derniere_connexion`) as derniere_connexion, c1.id as messageId, c1.id_expediteur as messageAuthorId
+			'SELECT u.id, login, UNIX_TIMESTAMP(`derniere_connexion`) as derniere_connexion, c1.id as messageId, c1.id_expediteur as messageAuthorId, e.nom
 				FROM espace
 				INNER JOIN utilisateur u
 				ON (espace.id_utilisateur = u.id)
@@ -66,6 +66,8 @@ class Chat extends Model
 					ON (c1.id_destinataire = u.id OR c1.id_expediteur = u.id)
 				LEFT OUTER JOIN chat c2
 					ON ((c2.id_destinataire = u.id OR c2.id_expediteur = u.id) AND (c1.id < c2.id))
+				LEFT JOIN espace e
+					ON e.id_utilisateur = u.id
 				WHERE
 					c2.id IS NULL
 				ORDER BY `login`');
