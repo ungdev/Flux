@@ -26,36 +26,6 @@ form input, select, label{
 form p{
 	font-size: 0.7em;
 }
-input[type="submit"] {
-	display: block;
-	margin:auto;
-}
-input, select {
-	background:#F8FAFA none repeat scroll 0 0;
-	border:1px solid #ABC6DD;
-	margin-bottom:5px;
-}
-input:hover, input:focus, textarea:hover, select:hover, checkbox:hover {
-	background:#E2EBEB none repeat scroll 0 0;
-	border:1px solid #4E6972;
-}
-input[type="text"], input[type="password"] {
-	padding:4px;
-	width: 100%;
-}
-input[type="button"], [type="reset"], input[type="submit"] {
-	background:transparent url(../images/nav.png) repeat-x scroll left -52px;
-	color:#FFFFFF;
-	cursor:pointer;
-	padding:3px 4px 4px;
-}
-input[type="button"]:hover, [type="reset"]:hover, input[type="submit"]:hover {
-	background:transparent url(../images/nav.png) repeat-x scroll left 0;
-	cursor:pointer;
-}
-input[type="checkbox"] {
-	background:#F8FAFA none repeat scroll 0 0;
-}
 #liste_espace, #liste_stock, #liste_problemes, #liste_utilisateur {
 	border:1px solid #7f7f7f;
 	margin:auto;

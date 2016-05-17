@@ -6,11 +6,8 @@ use models\User;
 use models\Chat;
 use models\Problem;
 
-use \lib\problemes;
 use \lib\admin_administration;
-use lib\admin_problemes;
 use lib\admin_iframe_log;
-use lib\admin_iframe_treso;
 use lib\admin_iframe_matrice;
 
 class AdminController extends Controller
@@ -21,17 +18,9 @@ class AdminController extends Controller
 		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
 			return ['redirection' => ''];
 		}
-		//
-		// if(isset($_GET['action']) AND $_GET['action'] == 'aprob') {
-		// 	$prob = new problemes();
-		// 	$prob->prob_niveau($_GET['id'], $_GET['id_type'], $_GET['gravite'], -1);
-		// 	return ['redirection' => 'admin'];
-		// }
-
-
 
 		return [
-			'view' => 'Admin/home2',
+			'view' => 'Admin/home',
 			'vars' => []
 		];
 	}
@@ -183,34 +172,6 @@ class AdminController extends Controller
 		return ['redirection' => 'admin#'.$_GET['btn']];
 	}
 
-	public function AdministrationAction() {
-
-		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
-			return ['redirection' => ''];
-		}
-
-		$admin = new admin_administration();
-
-		// if(isset($_POST['login']))
-		// {
-		// 	$admin->enregistrer_utilisateur($_POST['login'], $_POST['password'], $_POST['droit']);
-		// }
-		// elseif(isset($_GET['action']) AND $_GET['action'] == 'liste_utilisateurs')
-		// {
-		// 	$admin->liste_utilisateurs();
-		// }
-		// elseif(isset($_GET['action']) AND $_GET['action'] == 'liste_supprimer_utilisateur')
-		// {
-		// 	$admin->liste_supprimer_utilisateur($_GET['id']);
-		// }
-
-		return [
-			'view' => 'Admin/administration',
-			'vars' => [],
-			'layout' => 'fragment'
-		];
-	}
-
 	public function StockAction() {
 
 		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
@@ -342,36 +303,6 @@ class AdminController extends Controller
 		];
 	}
 
-	public function logContainerAction() {
-		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
-			return ['redirection' => ''];
-		}
-		return [
-			'view' => 'Admin/logContainer',
-			'layout' => 'fragment'
-		];
-	}
-
-	public function matriceContainerAction() {
-		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
-			return ['redirection' => ''];
-		}
-		return [
-			'view' => 'Admin/matriceContainer',
-			'layout' => 'fragment'
-		];
-	}
-
-	public function tresoContainerAction() {
-		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
-			return ['redirection' => ''];
-		}
-		return [
-			'view' => 'Admin/tresoContainer',
-			'layout' => 'fragment'
-		];
-	}
-
 	public function logAction() {
 
 		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
@@ -432,37 +363,5 @@ class AdminController extends Controller
 				'admin' => $admin
 			],
 		];
-	}
-
-	public function tresoAction() {
-
-		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
-			return ['redirection' => ''];
-		}
-
-		$admin = new admin_iframe_treso();
-
-		// TODO move to view
-		$admin->afficher_delestage();
-		exit;
-
-	}
-
-	public function problemAction() {
-
-		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
-			return ['redirection' => ''];
-		}
-
-		$admin_problemes = new admin_problemes();
-
-		if(isset($_POST['auteur']))
-		{
-			$admin_problemes->enregistrerAuteur($_POST['id'], $_POST['auteur']);
-		}
-
-		// TODO move to view
-		$admin_problemes->liste();
-		exit;
 	}
 }

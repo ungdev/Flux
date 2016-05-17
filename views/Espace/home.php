@@ -1,8 +1,7 @@
 <?php
 
 //structure de la page
-$css = ['bootstrap.min', 'bootstrap-theme.min', 'style2'];
-$js = ['jquery.min', 'bootstrap.min', 'espace'];
+$js = ['espace'];
 $title = "Espace à thème";
 ?>
 <div class="row espace">
