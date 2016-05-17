@@ -70,7 +70,7 @@ class Chat extends Model
 					ON e.id_utilisateur = u.id
 				WHERE
 					c2.id IS NULL
-				ORDER BY `login`');
+				ORDER BY e.nom ASC');
 		$sth->execute();
 		return $sth;
 	}
