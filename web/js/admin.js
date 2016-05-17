@@ -356,5 +356,10 @@ window.onhashchange = function() {
 
 // Init
 $(function() {
+	// Default page
+	if(!window.location.hash) {
+		window.location.hash = 'global-problems';
+	}
+
 	refresh();
 })
