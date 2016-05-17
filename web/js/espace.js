@@ -1,4 +1,4 @@
-var timeoutFunc = function(again){
+var refresh = function(again){
 	if(again === undefined) {
 		again = true;
 	}
@@ -31,18 +31,18 @@ var timeoutFunc = function(again){
 					// Print buttons
 					if(val.gravite == 2) {
 						html += '<div class="btn-group btn-group-problem" role="group">'
-							+ '<a href="/espace/problem?type='+ val.id_type_prob +'&gravite=0" class="btn btn-success" title="Annuler le signalement"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>'
+							+ '<a href="/espace/problem?type='+ val.id_type_prob +'&gravite=0" class="btn btn-success linkToAjax" title="Annuler le signalement"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>'
 							+ '<span class="btn btn-danger">'+val.nom+'</span>'
 							+ '</div>';
 					}
 					else if(val.gravite == 1) {
 						html += '<div class="btn-group btn-group-problem" role="group">'
-							+ '<a href="/espace/problem?type='+ val.id_type_prob +'&gravite=0" class="btn btn-success" title="Annuler le signalement"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>'
-							+ '<a href="/espace/problem?type='+ val.id_type_prob +'&gravite=2" class="btn btn-warning" title="Signaler que le problème est URGENT">'+val.nom+'</a>'
+							+ '<a href="/espace/problem?type='+ val.id_type_prob +'&gravite=0" class="btn btn-success linkToAjax" title="Annuler le signalement"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>'
+							+ '<a href="/espace/problem?type='+ val.id_type_prob +'&gravite=2" class="btn btn-warning linkToAjax" title="Signaler que le problème est URGENT">'+val.nom+'</a>'
 							+ '</div>';
 					}
 					else {
-						html += '<a href="/espace/problem?type='+ val.id_type_prob +'&gravite=1" class="btn btn-default btn-problem" title="Signaler un problème">'+val.nom+'</a>';
+						html += '<a href="/espace/problem?type='+ val.id_type_prob +'&gravite=1" class="btn btn-default btn-problem linkToAjax" title="Signaler un problème">'+val.nom+'</a>';
 					}
 				}
 			}
@@ -74,18 +74,18 @@ var timeoutFunc = function(again){
 					// Print buttons
 					if(val.fin != null) {
 						html += '<div class="col-md-4"><div class="btn-group btn-group-problem" role="group">'
-							+ '<a href="/espace/flux?level=1&stock='+val.id+'" class="btn btn-success" title="Annuler"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>'
+							+ '<a href="/espace/flux?level=1&stock='+val.id+'" class="btn btn-success linkToAjax" title="Annuler"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>'
 							+ '<span class="btn btn-danger">'+val.identifiant+' Terminé</span>'
 							+ '</div></div>';
 					}
 					else if(val.entame != null) {
 						html += '<div class="col-md-4"><div class="btn-group btn-group-problem" role="group">'
-							+ '<a href="/espace/flux?level=0&stock='+val.id+'" class="btn btn-success" title="Annuler"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>'
-							+ '<a href="/espace/flux?level=2&stock='+val.id+'" class="btn btn-warning" title="Indiquer comment terminé">'+val.identifiant+' Entamé</a>'
+							+ '<a href="/espace/flux?level=0&stock='+val.id+'" class="btn btn-success linkToAjax" title="Annuler"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>'
+							+ '<a href="/espace/flux?level=2&stock='+val.id+'" class="btn btn-warning linkToAjax" title="Indiquer comment terminé">'+val.identifiant+' Entamé</a>'
 							+ '</div></div>';
 					}
 					else {
-						html += '<div class="col-md-4"><a href="/espace/flux?level=1&stock='+val.id+'" class="btn btn-default btn-problem" title="Indiquer comment entamé">'+val.identifiant+'</a></div>';
+						html += '<div class="col-md-4"><a href="/espace/flux?level=1&stock='+val.id+'" class="btn btn-default btn-problem linkToAjax" title="Indiquer comment entamé">'+val.identifiant+'</a></div>';
 					}
 				}
 			}
@@ -127,6 +127,7 @@ var timeoutFunc = function(again){
 			}
 			html += '</div>';
 			$('#chat').html(html);
+
 			$('#chat').data('lastId', lastId)
 			$('#chat').parent().scrollTop( $('#chat').height() - $('#chat').parent().height() );
 		}
@@ -135,6 +136,10 @@ var timeoutFunc = function(again){
 		if (data.messageList[data.messageList.length-1].me == 1) {
 			localStorage.setItem('espaceChatLastId', $('#chat').data('lastId'));
 		}
+
+		// Recreate the link to ajax Event for every new items
+		$('.linkToAjax').off('click', null, linkToAjax);
+		$('.linkToAjax').on('click', null, linkToAjax);
 
 		$('.connexionState').html('Mise à jour : ' + (new Date()).toLocaleTimeString())
 		$('.connexionState').css('color', '#444');
@@ -147,11 +152,11 @@ var timeoutFunc = function(again){
 	})
 	.always(function() {
 		if(again) {
-			setTimeout(timeoutFunc, 3000);
+			setTimeout(refresh, 3000);
 		}
 	});
 };
-timeoutFunc();
+refresh();
 
 // Chat notification
 var notificationState = false;
@@ -171,21 +176,16 @@ setInterval(function () {
 	notificationState = !notificationState;
 
 }, 500);
-// Stop notification on click
-$('#chat-panel').click(function() {
-	localStorage.setItem('espaceChatLastId', $('#chat').data('lastId'));
-})
 
 // Chat send message
 var input = $('#chat-panel').find('input');
 function sendMessage() {
 	var val = input.val();
 	if(val.length >= 1) {
-		$.post('/espace/send', {'message' : val})
+		$.post('/espace/send', {'message' : val}, function(){ refresh(false); })
 		input.focus();
 		input.prop('disabled', true);
 		input.val('');
-		timeoutFunc(false);
 	}
 }
 // Event that send message
@@ -196,3 +196,20 @@ input.keypress(function (e) {
 		return false;
 	}
 });
+
+// Stop notification on click
+$('#chat-panel').click(function() {
+	localStorage.setItem('espaceChatLastId', $('#chat').data('lastId'));
+})
+// Stop notification on input edit
+input.on("change paste keyup", function() {
+	localStorage.setItem('espaceChatLastId', $('#chat').data('lastId'));
+})
+
+
+// Ajax instead of link function
+function linkToAjax() {
+	console.log('fire')
+	$.get($(this).attr('href'), [], function(){ refresh(false);})
+	return false;
+}

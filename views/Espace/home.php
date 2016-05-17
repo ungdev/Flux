@@ -24,7 +24,7 @@ $title = "Espace à thème";
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<div class="pull-right espace-btnbar">
-					<span class="connexionState">Mise à jour : 12:23:32</span>
+					<span class="connexionState">Pas encore mise à jour</span>
 					<button data-toggle="modal" data-target="#help-modal" class="btn btn-sm btn-info"><span class=" glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>
 					<a href="/logout" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-off" aria-hidden="true"></span></a>
 				</div>

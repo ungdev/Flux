@@ -10,7 +10,6 @@
 
 $route['/'] = [ 'controller' => 'Login', 'action' => 'Login'];
 $route['/logout'] = [ 'controller' => 'Login', 'action' => 'Logout'];
-$route['/admin'] = [ 'controller' => 'Admin', 'action' => 'Home'];
 $route['/admin_administration'] = [ 'controller' => 'Admin', 'action' => 'Administration'];
 $route['/admin_stock'] = [ 'controller' => 'Admin', 'action' => 'Stock'];
 $route['/admin_gestion_problemes'] = [ 'controller' => 'Admin', 'action' => 'ProblemManager'];
@@ -32,4 +31,10 @@ $route['/chat'] = [ 'controller' => 'Espace', 'action' => 'chat'];
 $route['/espace/json'] = [ 'controller' => 'Espace', 'action' => 'Json'];
 $route['/espace/send'] = [ 'controller' => 'Espace', 'action' => 'ChatSend'];
 $route['/espace/problem'] = [ 'controller' => 'Espace', 'action' => 'SetProblem'];
-$route['/espace/flux'] = [ 'controller' => 'Espace', 'action' => 'setItem'];
+$route['/espace/flux'] = [ 'controller' => 'Espace', 'action' => 'SetItem'];
+
+$route['/admin'] = [ 'controller' => 'Admin', 'action' => 'Home'];
+$route['/admin/json'] = [ 'controller' => 'Admin', 'action' => 'Json'];
+$route['/admin/send'] = [ 'controller' => 'Admin', 'action' => 'ChatSend'];
+$route['/admin/problem'] = [ 'controller' => 'Admin', 'action' => 'SetProblem'];
+$route['/admin/flux'] = [ 'controller' => 'Admin', 'action' => 'SetItem'];

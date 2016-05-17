@@ -2,6 +2,7 @@
 
 namespace controllers;
 use InvalidArgumentException;
+use models\User;
 use models\Flux;
 use models\Problem;
 use models\Chat;
@@ -10,7 +11,7 @@ class EspaceController extends Controller
 {
 
 	public function homeAction() {
-		if(!$this->login->isConnected()) {
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Bar')) {
 			return ['redirection' => ''];
 		}
 
@@ -24,7 +25,7 @@ class EspaceController extends Controller
 	}
 
 	public function chatAction() {
-		if(!$this->login->isConnected()) {
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Bar')) {
 			return [
 				'view' => 'errors/403'
 			];
@@ -85,7 +86,7 @@ class EspaceController extends Controller
 	}
 
 	public function jsonAction() {
-		if(!$this->login->isConnected()) {
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Bar')) {
 			return [
 				'view' => 'errors/403'
 			];
@@ -94,10 +95,13 @@ class EspaceController extends Controller
 		$fluxModel = new Flux();
 		$chatModel = new Chat();
 
+		$userModel = new User();
+		$userModel->updateLastConnection($_SESSION['id']);
+
 		$json = [];
 		$json['problemList'] = $problemModel->listForEspace($_SESSION['id_espace'])->fetchAll(\PDO::FETCH_ASSOC);
 		$json['fluxList'] = $fluxModel->listForEspace($_SESSION['id_espace'])->fetchAll(\PDO::FETCH_ASSOC);
-		$json['messageList'] = $chatModel->messageListForEspace($_SESSION['id'], $_SESSION['id_droit'])->fetchAll(\PDO::FETCH_ASSOC);
+		$json['messageList'] = $chatModel->messageListForEspace($_SESSION['id'])->fetchAll(\PDO::FETCH_ASSOC);
 
 		return [
 			'layout' => 'fragment',
@@ -126,24 +130,24 @@ class EspaceController extends Controller
 			'view' => 'json',
 			'vars' => [ 'json' => $json ]
 		];
-	}
-
-	public function setProblemAction() {
-		if(!$this->login->isConnected()) {
-			return ['redirection' => ''];
 		}
 
-		if(empty($_GET['type']) || !isset($_GET['gravite']) || !in_array($_GET['gravite'], ['0', '1', '2'])) {
-			return [
-				'view' => 'errors/403'
-			];
+		public function setProblemAction() {
+			if(!$this->login->isConnected()) {
+				return ['redirection' => ''];
+			}
+
+			if(empty($_GET['type']) || !isset($_GET['gravite']) || !in_array($_GET['gravite'], ['0', '1', '2'])) {
+				return [
+					'view' => 'errors/403'
+				];
+			}
+
+			$problemModel = new Problem();
+			$problemModel->setProblem($_SESSION['id_espace'], $_GET['type'], $_GET['gravite']);
+
+			return ['redirection' => 'espace'];
 		}
-
-		$problemModel = new Problem();
-		$problemModel->setProblem($_SESSION['id_espace'], $_GET['type'], $_GET['gravite']);
-
-		return ['redirection' => 'espace'];
-	}
 
 	public function setItemAction() {
 		if(!$this->login->isConnected()) {

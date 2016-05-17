@@ -1,6 +1,11 @@
 <?php
 
 namespace controllers;
+use models\Flux;
+use models\User;
+use models\Chat;
+use models\Problem;
+
 use \lib\problemes;
 use \lib\admin_administration;
 use lib\admin_problemes;
@@ -16,17 +21,134 @@ class AdminController extends Controller
 		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
 			return ['redirection' => ''];
 		}
+		//
+		// if(isset($_GET['action']) AND $_GET['action'] == 'aprob') {
+		// 	$prob = new problemes();
+		// 	$prob->prob_niveau($_GET['id'], $_GET['id_type'], $_GET['gravite'], -1);
+		// 	return ['redirection' => 'admin'];
+		// }
 
-		if(isset($_GET['action']) AND $_GET['action'] == 'aprob') {
-			$prob = new problemes();
-			$prob->prob_niveau($_GET['id'], $_GET['id_type'], $_GET['gravite'], -1);
-			return ['redirection' => 'admin'];
+
+
+		return [
+			'view' => 'Admin/home2',
+			'vars' => []
+		];
+	}
+
+
+	public function JsonAction() {
+
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
+			return [
+				'view' => 'errors/403'
+			];
+		}
+		$chatModel = new Chat();
+		$userModel = new User();
+
+		$userModel->updateLastConnection($_SESSION['id']);
+
+		$json = [];
+		$json['timestamp'] =  (new \DateTime)->getTimestamp();
+		$json['droitChannelList'] = $chatModel->droitChannelListForAdmin()->fetchAll(\PDO::FETCH_ASSOC);
+		$json['espaceChannelList'] = $chatModel->espaceChannelListForAdmin()->fetchAll(\PDO::FETCH_ASSOC);
+
+		if(isset($_GET['panel'])) {
+			if($_GET['panel'] == 'chat-user' && !empty($_GET['id'])) {
+
+				$problemModel = new Problem();
+				$fluxModel = new Flux();
+
+				$json['espace'] = $userModel->getEspace($_GET['id'])->fetch();
+				$json['problemList'] = $problemModel->listForEspace($json['espace']['id'])->fetchAll(\PDO::FETCH_ASSOC);
+				$json['fluxList'] = $fluxModel->listForEspace($json['espace']['id'])->fetchAll(\PDO::FETCH_ASSOC);
+				$json['messageList'] = $chatModel->messageListForEspace($_GET['id'])->fetchAll(\PDO::FETCH_ASSOC);
+			}
 		}
 
 		return [
-			'view' => 'Admin/home',
-			'vars' => []
+			'layout' => 'fragment',
+			'view' => 'json',
+			'vars' => [ 'json' => $json ]
 		];
+	}
+
+	public function chatSendAction() {
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
+			return [
+				'view' => 'errors/403'
+			];
+		}
+		$chatModel = new Chat();
+		$json = [];
+
+
+		if(!empty($_POST['message']) && !empty($_POST['target']) && !empty($_POST['panel'])) {
+			if($_POST['panel'] == 'chat-user') {
+				$chatModel->sendUserMessageFromAdmin($_SESSION['id'], $_POST['target'], $_POST['message']);
+			}
+			else if($_POST['panel'] == 'chat-group') {
+				$chatModel->sendDroitMessageFromAdmin($_SESSION['id'], $_POST['target'], $_POST['message']);
+			}
+		}
+		else {
+			$json['error'] = 'Parameters is missing';
+		}
+
+		return [
+			'layout' => 'fragment',
+			'view' => 'json',
+			'vars' => [ 'json' => $json ]
+		];
+	}
+
+
+	public function setProblemAction() {
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
+			return [
+				'view' => 'errors/403'
+			];
+		}
+
+		if(empty($_GET['type']) || !isset($_GET['espace']) || !isset($_GET['gravite']) || !in_array($_GET['gravite'], ['0', '1', '2'])) {
+			return [
+				'view' => 'errors/403'
+			];
+		}
+
+		$problemModel = new Problem();
+		$problemModel->setProblem($_GET['espace'], $_GET['type'], $_GET['gravite']);
+
+		return ['redirection' => 'admin#'.$_GET['btn']];
+	}
+
+
+	public function setItemAction() {
+		if(!$this->login->isConnected() OR !$this->login->testDroit('Admin')) {
+			return [
+				'view' => 'errors/403'
+			];
+		}
+
+		$fluxModel = new Flux();
+
+		// Check rights and if item is in espace
+		if(empty($_GET['stock']) || !isset($_GET['espace']) || !isset($_GET['level']) || !in_array($_GET['level'], ['0', '1', '2'])
+			|| !$fluxModel->isItemInEspace($_GET['stock'], $_GET['espace'])) {
+			return [
+				'view' => 'errors/403'
+			];
+		}
+
+		// Set item level
+		$fluxModel->setItemLevel($_GET['stock'], $_GET['level']);
+
+		// Update manque auto
+		$fluxModel->updateManqueAuto($_GET['stock'], $_GET['espace']);
+
+
+		return ['redirection' => 'admin#'.$_GET['btn']];
 	}
 
 	public function AdministrationAction() {
