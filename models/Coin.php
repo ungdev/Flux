@@ -75,7 +75,8 @@ class Coin extends Model
 
 	public function createCountedTransfers($userId, $espaceId, $value) {
 		$sth = $this->db->prepare(
-		'UPDATE `coin_transfers` SET `deletedAt`=NOW() WHERE id=:id');
+		'INSERT INTO `coin_transfers`(`espace_id`, `transferredAt`, `transferredBy`, `countedAt`, `countedBy`, `value`) VALUES
+		(:espaceId,NOW(),:userId,NOW(),:userId,:value)');
 		$sth->execute([
 			':espaceId' => $espaceId,
 			':userId' => $userId,
