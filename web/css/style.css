@@ -63,9 +63,13 @@ body {
 	border-bottom-right-radius: 4px;
 }
 
-.espace .espace-btnbar, .admin .espace-btnbar {
+.espace-btnbar {
 	margin-top: -7px;
 	margin-right:-10px;
+}
+.espace-btnbar select {
+	width: auto;
+	display:inline-block;
 }
 
 .espace .panel, .admin .panel
@@ -73,11 +77,12 @@ body {
 	margin-bottom:0;
 }
 
-.espace .panel-body, .admin .panel-body
+.espace .panel-body, .admin .panel-body, .table-panel-body
 {
 	height: 300px;
 	height: calc(100vh - 60px);
 	overflow-y: auto;
+	clear:both;
 }
 
 .espace .connexionState, .admin .connexionState {

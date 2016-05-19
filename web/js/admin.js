@@ -223,7 +223,6 @@ var refresh = function(again){
 						if(val.progress == '1') {
 							progress = 'primary';
 						}
-						console.log(val);
 
 						if(val.gravite == 2) {
 							html += '<div class="col-md-4"><div class="btn-group btn-group-problem3" role="group">'
@@ -245,6 +244,95 @@ var refresh = function(again){
 				}
 				$('#global-problems-container').html(html);
 				$('#global-problems').data('array', JSON.stringify(data.globalProblemList))
+			}
+		}
+
+		if(data.transferList && data.transferSum && data.espaceList) {
+			if($('#transfer').data('array') === undefined || $('#transfer').data('array') != JSON.stringify([data.transferList, data.transferSum, data.espaceList]))
+			{
+				var html = '';
+				if(data.transferList.length <= 0 || data.transferList[0].espace_id === null) {
+					html += '<tr><td colspan=6>Aucun transaction trouvée...</td></tr>'
+					$('#transfer-credit').html('');
+					$('#transfer-debit').html('');
+					$('#transfer-sum').html('');
+				}
+				else {
+					for (var index in data.transferList) {
+						if (data.transferList.hasOwnProperty(index)) {
+							var val = data.transferList[index];
+
+							html += '<tr>'
+									+ '<td>'+ val.nom +'</td>'
+									+ '<td>'+ val.transferredAt +' par '+ val.transferredBy_nom +'</td>';
+									if(val.countedAt != null && val.countedBy_nom != null && val.value != null ) {
+										html += '<td>'+ val.countedAt +' par '+ val.countedBy_nom +'</td>'
+											+ '<td>'+ val.value +'</td>';
+									}
+									else {
+										html += '<td colspan="2" class="danger">Pas encore compté</td>';
+									}
+									html += '<td>'
+										+ '<button data-toggle="modal" data-target="#transfer-edit-modal" data-id="'+val.id+'" data-value="'+val.value+'" class="edit-transfer-button btn btn-sm btn-success"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button> '
+										+ '<button data-toggle="modal" data-target="#transfer-remove-modal" data-id="'+val.id+'" data-value="'+val.value+'" class="remove-transfer-button btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>'
+									+ '</td>'
+								+ '</tr>';
+						}
+					}
+				}
+				$('#transfer-list').html(html);
+				$('#transfer-list').find('.edit-transfer-button').click(function() {
+					$('#transfer-edit-idfield').val($(this).data('id'));
+					$('#transfer-edit-valueField').val($(this).data('value'));
+
+					return true;
+				})
+
+				$('#transfer-list').find('.remove-transfer-button').click(function() {
+					$('#transfer-remove-idfield').val($(this).data('id'));
+					return true;
+				})
+
+
+				// Fill part of the page that need a list of espaces
+				var select = '<option value=""></option>';
+				var select2 = '<option value=""></option>';
+				var form = '';
+				var transferFromForm = '';
+				for (var index in data.espaceList) {
+					if (data.espaceList.hasOwnProperty(index)) {
+						var val = data.espaceList[index];
+
+						// Select filter
+						if(val.id == targetId) {
+							select += '<option value="'+val.id+'" selected>'+val.nom+'</option>';
+						}
+						else {
+							select += '<option value="'+val.id+'">'+val.nom+'</option>';
+						}
+
+						// Select transfer-to-field
+						if(val.id == $('#transfer-to-field').val()) {
+							select2 += '<option value="'+val.id+'" selected>'+val.nom+'</option>';
+						}
+						else {
+							select2 += '<option value="'+val.id+'">'+val.nom+'</option>';
+						}
+
+						// transfer-from form
+						form += '<div class="checkbox"><label><input type="checkbox" name="espace['+val.id+']"> '+val.nom+'</label></div>';
+					}
+				}
+				$('#transfer-filter').html(select);
+				$('#transfer-to-field').html(select2);
+
+				form += '<input type="submit" class="btn btn-primary" value="Valider"/>'
+				$('#transfer-from-form').html(form);
+
+				$('#transfer-credit').html(data.transferSum[0].credit);
+				$('#transfer-debit').html(data.transferSum[0].debit);
+				$('#transfer-sum').html(data.transferSum[0].sum);
+				$('#transfer').data('array', JSON.stringify([data.transferList, data.transferSum, data.espaceList]))
 			}
 		}
 
@@ -337,7 +425,7 @@ setInterval(function () {
 var input = $('.chat-panel').find('input');
 function sendMessage(input) {
 	var val = input.val();
-	if(val.length >= 1) {
+	if(val && val.length >= 1) {
 		$.post('/admin/send', {'message' : val, 'target' : targetId, 'panel': currentPanel}, function(){ refresh(false); })
 		input.focus();
 		input.prop('disabled', true);
@@ -360,6 +448,12 @@ function linkToAjax() {
 	$.get($(this).attr('href'), [], function(){ refresh(false); })
 	return false;
 }
+
+// Refresh on transfer filter change
+$('.filterSelect').change(function() {
+	targetId = $(this).val();
+	refresh(false);
+})
 
 // Refresh on #link change
 window.onhashchange = function() {

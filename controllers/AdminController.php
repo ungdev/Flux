@@ -1,9 +1,11 @@
 <?php
 
 namespace controllers;
+use models\Coin;
 use models\Flux;
 use models\User;
 use models\Chat;
+use models\Espace;
 use models\Problem;
 
 use \lib\admin_administration;
@@ -62,6 +64,22 @@ class AdminController extends Controller
 
 				$problemModel = new Problem();
 				$json['globalProblemList'] = $problemModel->listForAdmin()->fetchAll(\PDO::FETCH_ASSOC);
+			}
+			else if($_GET['panel'] == 'transfer') {
+
+				$coinModel = new Coin();
+				$espaceModel = new Espace();
+
+				$json['espaceList'] = $espaceModel->espaceList()->fetchAll(\PDO::FETCH_ASSOC);
+
+				if(!empty($_GET['id'])) {
+					$json['transferList'] = $coinModel->transferList($_GET['id'])->fetchAll(\PDO::FETCH_ASSOC);
+					$json['transferSum'] = $coinModel->transferSum($_GET['id'])->fetchAll(\PDO::FETCH_ASSOC);
+				}
+				else {
+					$json['transferList'] = $coinModel->transferList()->fetchAll(\PDO::FETCH_ASSOC);
+					$json['transferSum'] = $coinModel->transferSum()->fetchAll(\PDO::FETCH_ASSOC);
+				}
 			}
 		}
 
@@ -363,5 +381,63 @@ class AdminController extends Controller
 				'admin' => $admin
 			],
 		];
+	}
+
+
+
+	public function createTransferFromAction() {
+
+		if(!$this->login->isConnected() || !$this->login->testDroit('Admin')) {
+			return ['redirection' => ''];
+		}
+
+		if(isset($_POST['espace']) && count($_POST['espace']) > 0) {
+			$coinModel = new Coin();
+			$coinModel->createMultipleTransfers($_SESSION['id'], $_POST['espace']);
+		}
+
+		return ['redirection' => 'admin#transfer'];
+	}
+
+	public function createTransferToAction() {
+
+		if(!$this->login->isConnected() || !$this->login->testDroit('Admin')) {
+			return ['redirection' => ''];
+		}
+
+		if(!empty($_POST['espaceId']) && !empty($_POST['value'])) {
+			$coinModel = new Coin();
+			$coinModel->createCountedTransfers($_SESSION['id'], $_POST['espaceId'], -abs($_POST['value']));
+		}
+
+		return ['redirection' => 'admin#transfer'];
+	}
+
+	public function removeTransferAction() {
+
+		if(!$this->login->isConnected() || !$this->login->testDroit('Admin')) {
+			return ['redirection' => ''];
+		}
+
+		if(!empty($_POST['id'])) {
+			$coinModel = new Coin();
+			$coinModel->softRemoveTransfer($_POST['id']);
+		}
+
+		return ['redirection' => 'admin#transfer'];
+	}
+
+	public function editTransferAction() {
+
+		if(!$this->login->isConnected() || !$this->login->testDroit('Admin')) {
+			return ['redirection' => ''];
+		}
+
+		if(!empty($_POST['id']) && !empty($_POST['value'])) {
+			$coinModel = new Coin();
+			$coinModel->updateTransfer($_POST['id'], $_POST['value'], $_SESSION['id']);
+		}
+
+		return ['redirection' => 'admin#transfer'];
 	}
 }

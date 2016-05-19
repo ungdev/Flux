@@ -49,6 +49,53 @@ $title = "Panneau d'admin";
 			</div>
 		</div>
 
+		<!-- Panel used when on transfers click -->
+		<div class="row espace" id="transfer">
+			<div class="col-md-12">
+
+				<div class="panel panel-default chat-panel">
+					<div class="panel-heading">
+						<div class="pull-right espace-btnbar">
+							<select class="form-control input-sm filterSelect" id="transfer-filter">
+								<option value="">Pas de filtrage</option>
+							</select>
+							<button data-toggle="modal" data-target="#transfer-from-modal" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Délestage de bar</button>
+							<button data-toggle="modal" data-target="#transfer-to-modal" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Rechargement en jeton</button>
+						</div>
+						<h3 class="panel-title">Transfers de jeton</h3>
+					</div>
+
+					<div class="table-panel-body">
+						<table class="table table-hover	">
+							<thead>
+								<tr>
+									<th>Point de vente</th>
+									<th>Transféré</th>
+									<th>Compté</th>
+									<th>Valeur</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody id="transfer-list">
+							</tbody>
+							<tfoot>
+								<tr>
+									<th colspan="3" style="text-align:right;">Jetons delestés : <br/>
+									Jetons rechargés : <br/>
+									Total : </th>
+									<td colspan="2">
+										<span id="transfer-credit"></span><br/>
+										<span id="transfer-debit"></span><br/>
+										<span id="transfer-sum"></span>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<!-- Panel used when on chat-user click -->
 		<div class="row espace" id="chat-user">
 			<!-- Left sidebar : Problems -->
@@ -146,6 +193,7 @@ $title = "Panneau d'admin";
 						<a href="#logistique" class="list-group-item" data-btnname="logistique" data-panel="logistique">Logistique</a>
 						<a href="#stock" class="list-group-item" data-btnname="stock" data-panel="stock">Etat du stock</a>
 						<a href="#admin" class="list-group-item" data-btnname="admin" data-panel="admin">Administration</a>
+						<a href="#transfer" class="list-group-item" data-btnname="transfer" data-panel="transfer">Jetons</a>
 					</div>
 					<h4>Chat</h4>
 					<div id="channels">Chargement..</div>
@@ -169,6 +217,101 @@ $title = "Panneau d'admin";
 					<li>Rédiger l'aide</li>
 					<li>Appelez moi Alabate !</li>
 				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Coin create transfer from espaces -->
+<div class="modal fade" id="transfer-from-modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Délestage</h4>
+			</div>
+			<div class="modal-body">
+				Veuillez selectionner les bars que vous venez de délester :
+				<form action="/admin/transfer-from" method="post" id="transfer-from-form">
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Coin create transfer to an espace -->
+<div class="modal fade" id="transfer-to-modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Rechargement de jeton</h4>
+			</div>
+			<div class="modal-body">
+				<form action="/admin/transfer-to" method="post" id="transfer-from-to">
+
+					<div class="form-group">
+						<label>
+							Destinataire
+							<select class="form-control" id="transfer-to-field" name="espaceId">
+							</select>
+						</label>
+					</div>
+
+					<div class="form-group">
+						<label>
+							Nombre de jetons donnés
+							<input type="number" name="value" class="form-control"/>
+						</label>
+					</div>
+
+					<input type="submit" value="Valider" class="btn btn-primary"/>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Coin remove transfer -->
+<div class="modal fade" id="transfer-remove-modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Suppression d'un transfert</h4>
+			</div>
+			<div class="modal-body">
+				<p>Confirmez vous la suppression du transfert ?</p>
+				<form action="/admin/transfer-remove" method="post">
+					<input type="hidden" name="id" id="transfer-remove-idfield">
+					<button type="button" class="btn btn-danger" data-dismiss="modal" >Annuler</button>
+					<input type="submit" value="Supprimer" class="btn btn-primary"/>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Coin edit transfer -->
+<div class="modal fade" id="transfer-edit-modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Modification du nombre de jetons d'un transfert</h4>
+			</div>
+			<div class="modal-body">
+				<form action="/admin/transfer-edit" method="post">
+					<div class="form-group">
+						<label>Nombre de jetons
+						<input type="number" class="form-control" id="transfer-edit-valueField" required name="value"></label>
+						<br/><p>Note: Un délestage de bar sera écris avec un nombre positif<br/>tandis qu'un rechargement de point de vente sera écris en négatif</p>
+					</div>
+					<input type="hidden" name="id" id="transfer-edit-idfield">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+					<input type="submit" value="Modifier" class="btn btn-primary"/>
+				</form>
 			</div>
 		</div>
 	</div>

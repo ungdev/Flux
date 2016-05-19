@@ -33,3 +33,8 @@ $route['/admin/send'] = [ 'controller' => 'Admin', 'action' => 'ChatSend'];
 $route['/admin/problem'] = [ 'controller' => 'Admin', 'action' => 'SetProblem'];
 $route['/admin/flux'] = [ 'controller' => 'Admin', 'action' => 'SetItem'];
 $route['/admin/progress'] = [ 'controller' => 'Admin', 'action' => 'toggleProgess'];
+
+$route['/admin/transfer-from'] = [ 'controller' => 'Admin', 'action' => 'createTransferFrom'];
+$route['/admin/transfer-to'] = [ 'controller' => 'Admin', 'action' => 'createTransferTo'];
+$route['/admin/transfer-remove'] = [ 'controller' => 'Admin', 'action' => 'removeTransfer'];
+$route['/admin/transfer-edit'] = [ 'controller' => 'Admin', 'action' => 'editTransfer'];
