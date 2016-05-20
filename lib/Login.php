@@ -24,9 +24,10 @@ class Login
      */
     public function checkCredentials($user, $pass)
     {
-        if (!ctype_alnum($user)) {
+        if(preg_match('/[^a-z0-9\-]/i', $user)) {
             die('Symboles non-autorisés dans le nom d\'utilisateur.');
         }
+        $user = strtolower($user);
 
         $resultat = $this->sql->select('id, login', 'utilisateur', "WHERE login='".$user."' AND pass='".SHA1($pass)."'")[0];
         if ($resultat) {
