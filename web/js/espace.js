@@ -1,9 +1,12 @@
 var version = '';
+var lastUpdateDatetime = '0';
 
 var refresh = function(again){
 	if(again === undefined) {
 		again = true;
 	}
+
+	lastUpdateDatetime = new Date();
 
 	var jqxhr = jQuery.getJSON( "/espace/json", function(data) {
 		if(!data) {
@@ -105,14 +108,20 @@ var refresh = function(again){
 		}
 
 		// Update chat on the right sidedpanel
+		var lastId = '';
+		html = '';
 		if(!data.messageList) {
 			$('#chat').html('Erreur de chargement..');
 		}
-		var lastId = data.messageList[data.messageList.length-1].id;
+		if(data.messageList.length <= 0) {
+			html += 'Aucun message.'
+		}
+		else {
+			lastId = data.messageList[data.messageList.length-1].id;
+		}
 		if($('#chat').data('lastId') === undefined || $('#chat').data('lastId') != lastId)
 		{
 			currentCat = -1;
-			html = '';
 			for (var msg in data.messageList) {
 				if (data.messageList.hasOwnProperty(msg)) {
 					var val = data.messageList[msg];
@@ -143,7 +152,7 @@ var refresh = function(again){
 		}
 
 		// Disable notification if last message id from me
-		if (data.messageList[data.messageList.length-1].me == 1) {
+		if (data.messageList.length <= 0 || data.messageList[data.messageList.length-1].me == 1) {
 			localStorage.setItem('espaceChatLastId', $('#chat').data('lastId'));
 		}
 
@@ -223,3 +232,11 @@ function linkToAjax() {
 	$.get($(this).attr('href'), [], function(){ refresh(false);})
 	return false;
 }
+
+// Emergency crash update refresh
+setInterval(function () {
+	if(((new Date()) - lastUpdateDatetime) > 10000) {
+		console.log('No update since 10 sec : refresh !')
+		location.reload();
+	}
+}, 5000);

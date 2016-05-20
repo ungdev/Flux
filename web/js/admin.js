@@ -3,12 +3,15 @@ var currentBtnName = '';
 var targetId = 0;
 var currentHash = '';
 var version = '';
+var lastUpdateDatetime = '0';
 
 // Started every 3 seconds
 var refresh = function(again){
 	if(again === undefined) {
 		again = true;
 	}
+
+	lastUpdateDatetime = new Date();
 
 	var jqxhr = jQuery.getJSON( '/admin/json?panel='+currentPanel+'&id='+targetId, function(data) {
 		if(!data) {
@@ -478,3 +481,11 @@ $(function() {
 
 	refresh();
 })
+
+// Emergency crash update refresh
+setInterval(function () {
+	if(((new Date()) - lastUpdateDatetime) > 10000) {
+		console.log('No update since 10 sec : refresh !')
+		location.reload();
+	}
+}, 5000);
