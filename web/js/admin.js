@@ -2,6 +2,7 @@ var currentPanel = '';
 var currentBtnName = '';
 var targetId = 0;
 var currentHash = '';
+var version = '';
 
 // Started every 3 seconds
 var refresh = function(again){
@@ -14,6 +15,14 @@ var refresh = function(again){
 			$('.connexionState').html('<span class="glyphicon glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Impossible de mettre à jour !')
 			$('.connexionState').css('color', 'red');
 			return;
+		}
+
+		// Refresh if version change
+		if(version == '') {
+			version = data.version;
+		}
+		else if(version != data.version) {
+			location.reload();
 		}
 
 		// Update channel list on the right

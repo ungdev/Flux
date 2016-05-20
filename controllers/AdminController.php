@@ -41,6 +41,7 @@ class AdminController extends Controller
 		$userModel->updateLastConnection($_SESSION['id']);
 
 		$json = [];
+		$json['version'] = $this->conf['version'];
 		$json['timestamp'] =  (new \DateTime)->getTimestamp();
 		$json['droitChannelList'] = $chatModel->droitChannelListForAdmin()->fetchAll(\PDO::FETCH_ASSOC);
 		$json['espaceChannelList'] = $chatModel->espaceChannelListForAdmin()->fetchAll(\PDO::FETCH_ASSOC);

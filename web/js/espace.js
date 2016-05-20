@@ -1,3 +1,5 @@
+var version = '';
+
 var refresh = function(again){
 	if(again === undefined) {
 		again = true;
@@ -8,6 +10,14 @@ var refresh = function(again){
 			$('.connexionState').html('<span class="glyphicon glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Impossible de mettre à jour !')
 			$('.connexionState').css('color', 'red');
 			return;
+		}
+
+		// Refresh if version change
+		if(version == '') {
+			version = data.version;
+		}
+		else if(version != data.version) {
+			location.reload();
 		}
 
 		// Update problems on left sidebar

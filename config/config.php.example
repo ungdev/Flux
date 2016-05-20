@@ -8,3 +8,5 @@ $conf['database']['host'] = 'localhost';
 $conf['database']['base'] = 'flux';
 $conf['database']['user'] = 'flux';
 $conf['database']['pass'] = '';
+
+$conf['version'] = '1'; // If version change, client js refresh the page

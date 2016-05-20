@@ -38,6 +38,7 @@ class EspaceController extends Controller
 		$userModel->updateLastConnection($_SESSION['id']);
 
 		$json = [];
+		$json['version'] = $this->conf['version'];
 		$json['problemList'] = $problemModel->listForEspace($_SESSION['id_espace'])->fetchAll(\PDO::FETCH_ASSOC);
 		$json['fluxList'] = $fluxModel->listForEspace($_SESSION['id_espace'])->fetchAll(\PDO::FETCH_ASSOC);
 		$json['messageList'] = $chatModel->messageListForEspace($_SESSION['id'])->fetchAll(\PDO::FETCH_ASSOC);
