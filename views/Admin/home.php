@@ -148,29 +148,29 @@ $title = "Panneau d'admin";
 
 		<!-- logistique panel -->
 		<div class="row" id="logistique">
-			<iframe id="iframe_admin" class="iframe_admin" src="admin_iframe_log" height="500" width="100%"></iframe>
+			<iframe class="iframe" src="admin_iframe_log"></iframe>
 		</div>
 		<!-- Stock panel -->
 		<div class="row" id="stock">
-			<iframe id="iframe_admin" class="iframe_admin" src="admin_iframe_matrice" height="500" width="100%"></iframe>
+			<iframe class="iframe" src="admin_iframe_matrice"></iframe>
 		</div>
 		<!-- Admin panel -->
 		<div class="row" id="admin">
 			<div class="col-md-3">
 				<h4>Stock</h4>
-				<iframe src="admin_stock" height="500" width="100%"></iframe>
+				<iframe class="iframe" src="admin_stock"></iframe>
 			</div>
 			<div class="col-md-3">
 				<h4>Problème</h4>
-				<iframe src="admin_gestion_problemes" height="500" width="100%"></iframe>
+				<iframe class="iframe" src="admin_gestion_problemes"></iframe>
 			</div>
 			<div class="col-md-3">
 				<h4>Espace</h4>
-				<iframe src="admin_espaces" height="500" width="100%"></iframe>
+				<iframe class="iframe" src="admin_espaces"></iframe>
 			</div>
 			<div class="col-md-3">
 				<h4>Utilisateur</h4>
-				<iframe src="admin_utilisateurs" height="500" width="100%"></iframe>
+				<iframe class="iframe" src="admin_utilisateurs"></iframe>
 			</div>
 		</div>
 
