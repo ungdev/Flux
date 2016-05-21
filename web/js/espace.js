@@ -81,7 +81,7 @@ var refresh = function(again){
 						if(currentCat != -1) {
 							html += '</div>';
 						}
-						html += '<h4>'+val.type_name+' ('+val.conditionnement+')</h4><div class="row">';
+						html += '<h4>'+val.type_name+'</h4><div class="row">';
 						currentCat = val.type_id;
 					}
 
