@@ -8,10 +8,10 @@
 		<title><?= ($title??'').' - ' . $conf['app_name'] ?></title>
 		<link href="<?= $conf['web_uri'] ?>css/bootstrap.min.css" rel="stylesheet">
 		<link href="<?= $conf['web_uri'] ?>css/bootstrap-theme.min.css" rel="stylesheet">
-		<link href="<?= $conf['web_uri'] ?>css/style.css" rel="stylesheet">
+		<link href="<?= $conf['web_uri'] ?>css/style.css?<?= $conf['version'] ?>" rel="stylesheet">
 
 		<?php foreach (($css??[]) as $value): ?>
-			<link href="<?= $conf['web_uri'].'css/'.$value.'.css' ?>" rel="stylesheet"/>
+			<link href="<?= $conf['web_uri'].'css/'.$value.'.css?'.$conf['version'] ?>" rel="stylesheet"/>
 		<?php endforeach; ?>
 
 
@@ -22,7 +22,7 @@
 		<script src="<?= $conf['web_uri'] ?>js/jquery.min.js"></script>
 		<script src="<?= $conf['web_uri'] ?>js/bootstrap.min.js"></script>
 		<?php foreach (($js??[]) as $value): ?>
-			<script src="<?= $conf['web_uri'].'js/'.$value.'.js' ?>"></script>
+			<script src="<?= $conf['web_uri'].'js/'.$value.'.js?'.$conf['version'] ?>"></script>
 		<?php endforeach; ?>
 	</body>
 </html>
