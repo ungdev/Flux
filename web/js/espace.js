@@ -1,5 +1,6 @@
 var version = '';
 var lastUpdateDatetime = '0';
+var timeout = null;
 
 var refresh = function(again){
 	if(again === undefined) {
@@ -171,7 +172,8 @@ var refresh = function(again){
 	})
 	.always(function() {
 		if(again) {
-			setTimeout(refresh, 3000);
+			clearTimeout(timeout);
+			timeout = setTimeout(refresh, 3000);
 		}
 	});
 };
@@ -228,15 +230,14 @@ input.on("change paste keyup", function() {
 
 // Ajax instead of link function
 function linkToAjax() {
-	console.log('fire')
 	$.get($(this).attr('href'), [], function(){ refresh(false);})
 	return false;
 }
 
 // Emergency crash update refresh
 setInterval(function () {
-	if(((new Date()) - lastUpdateDatetime) > 10000) {
-		console.log('No update since 10 sec : refresh !')
-		location.reload();
+	if(((new Date()) - lastUpdateDatetime) > 30000) {
+		console.log('No update since 30 sec : refresh !')
+		refresh();
 	}
 }, 5000);
