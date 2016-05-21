@@ -57,7 +57,7 @@ class Problem extends Model
 			if(count($result) && isset($result[0]['id'])) {
 				// Update
 				$id = $result[0]['id'];
-				$sth = $this->db->prepare('UPDATE `liste_prob` SET `gravite`=:gravite WHERE id=:id');
+				$sth = $this->db->prepare('UPDATE `liste_prob` SET `gravite`=:gravite, `auteur`=NULL WHERE id=:id');
 				$sth->execute([
 					':gravite' => $gravite,
 					':id' => $id,
