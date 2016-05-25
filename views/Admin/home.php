@@ -183,6 +183,7 @@ $title = "Panneau d'admin";
 				<div class="pull-right espace-btnbar">
 					<span class="connexionState">Pas encore mise à jour</span>
 					<button data-toggle="modal" data-target="#help-modal" class="btn btn-sm btn-info"><span class=" glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>
+					<a href="/admin/timeline" class="btn btn-sm btn-success" title="Chronologie de la soirée"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></a>
 					<a href="/logout" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-off" aria-hidden="true"></span></a>
 				</div>
 				<h3 class="panel-title">&nbsp;</h3>

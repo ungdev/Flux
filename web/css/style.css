@@ -17,10 +17,10 @@ body {
 .btn-problem {
 	text-align: left;
 	margin: 0 0 2px 0;
-	padding-top: 3px;
-	padding-bottom: 3px;
+	padding: 3px 4px;
 	display:block;
 	width: 100%;
+	text-shadow: none;
 }
 .btn-group-problem, .btn-group-problem3 {
 	margin: 0 0 10px 0;
@@ -77,6 +77,9 @@ body {
 .espace-btnbar select {
 	width: auto;
 	display:inline-block;
+}
+.espace-btnbar input[type=checkbox] {
+	margin-left:10px;
 }
 
 .espace .panel, .admin .panel
@@ -143,7 +146,7 @@ body {
 	margin-bottom:0;
 }
 
-.chat li
+.chat-body
 {
 	margin-bottom: 3px;
 	padding-bottom: 3px;
@@ -161,7 +164,7 @@ body {
 }
 
 
-.chat li .chat-body span
+.chat .chat-body span
 {
 	margin: 0;
 	color: #777777;

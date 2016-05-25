@@ -4,9 +4,13 @@ $conf['app_name'] = 'Flux Manager'; // Application name
 $conf['web_uri'] = '/'; // Web URI to the `web` directory (end with a '/')
 $conf['server_path'] = dirname(__FILE__).'/../'; // Path to the root of the project (end with a '/')
 
-$conf['database']['host'] = 'localhost';
-$conf['database']['base'] = 'flux';
-$conf['database']['user'] = 'flux';
-$conf['database']['pass'] = '';
+$config['database']['host'] = 'localhost';
+$config['database']['base'] = 'flux';
+$config['database']['user'] = 'flux';
+$config['database']['pass'] = '';
 
 $conf['version'] = '1'; // If version change, client js refresh the page
+
+// Use in timeline
+$conf['start'] = new DateTime('2016-05-21 20:00:00');
+$conf['end'] = new DateTime('2016-05-22 05:00:00');

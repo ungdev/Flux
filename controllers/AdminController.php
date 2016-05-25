@@ -441,4 +441,70 @@ class AdminController extends Controller
 
 		return ['redirection' => 'admin#transfer'];
 	}
+
+	public function timelineAction() {
+
+		if(!$this->login->isConnected() || !$this->login->testDroit('Admin')) {
+			return ['redirection' => ''];
+		}
+
+		$filter = [
+
+		];
+
+
+		if(!empty($_GET['espace'])) {
+			$filter['espace'] = $_GET['espace'];
+		}
+		$espaceModel = new Espace();
+		$espaces = $espaceModel->espaceUserList()->fetchAll(\PDO::FETCH_ASSOC);
+
+
+		$problems = [];
+		if(!isset($_GET['espace']) || $_GET['problems']) {
+			$problemModel = new Problem();
+			$problems = $problemModel->timelineList()->fetchAll(\PDO::FETCH_ASSOC);
+			$filter['problems'] = true;
+		}
+
+		$messages = [];
+		if(!isset($_GET['espace']) || $_GET['chat']) {
+			$chatModel = new Chat();
+			$messages = $chatModel->messagesTimeline()->fetchAll(\PDO::FETCH_ASSOC);
+			$filter['chat'] = true;
+		}
+
+		$transfers = [];
+		if(!isset($_GET['espace']) || $_GET['coins']) {
+			$coinModel = new Coin();
+			$transfers = $coinModel->transferList()->fetchAll(\PDO::FETCH_ASSOC);
+			$filter['coins'] = true;
+		}
+
+		$fluxEntames = [];
+		$fluxFins = [];
+		$parcours = [];
+		if(!isset($_GET['espace']) || $_GET['flux']) {
+			$fluxModel = new Flux();
+			$fluxEntames = $fluxModel->timelineEntameList()->fetchAll(\PDO::FETCH_ASSOC);
+			$fluxFins = $fluxModel->timelineFinList()->fetchAll(\PDO::FETCH_ASSOC);
+			$parcours = $fluxModel->timelineParcoursList()->fetchAll(\PDO::FETCH_ASSOC);
+			$filter['flux'] = true;
+		}
+
+
+		return [
+			'view' => 'Admin/timeline',
+			'vars' => [
+				'espaces' => $espaces,
+				'problems' => $problems,
+				'fluxEntames' => $fluxEntames,
+				'fluxFins' => $fluxFins,
+				'parcours' => $parcours,
+				'messages' => $messages,
+				'transfers' => $transfers,
+				'filter' => $filter,
+			],
+		];
+	}
 }

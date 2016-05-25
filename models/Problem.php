@@ -101,4 +101,16 @@ class Problem extends Model
 			return $sth;
 		}
 
+	public function timelineList() {
+		$sth = $this->db->prepare(
+			'SELECT `id_type_prob`, `id_espace`, `heure`, `gravite`, `t`.nom, `t`.`id_cat_prob`
+			FROM `archive_prob` p
+			LEFT JOIN `type_prob` t
+				ON t.id = id_type_prob
+			WHERE id_cat_prob != 0
+			ORDER BY `heure` ASC, p.`id` ASC');
+		$sth->execute();
+		return $sth;
+	}
+
 }

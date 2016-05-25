@@ -128,5 +128,35 @@ class Flux extends Model
 				break;
 		}
 	}
+
+	public function timelineEntameList() {
+		$sth = $this->db->prepare(
+			'SELECT s.`id`, `id_type_stock`, `identifiant`, `entame`, s.`fin`, p.id_espace
+			FROM `stock` s
+			LEFT JOIN parcours p
+				ON p.id_stock = s.id AND p.debut <= entame AND (p.fin >= entame OR p.fin = \'0000-00-00 00:00:00\')');
+		$sth->execute();
+		return $sth;
+	}
+
+	public function timelineFinList() {
+		$sth = $this->db->prepare(
+			'SELECT s.`id`, `id_type_stock`, `identifiant`, `entame`, s.`fin`, p.id_espace
+			FROM `stock` s
+			LEFT JOIN parcours p
+				ON p.id_stock = s.id AND p.debut <= s.fin AND (p.fin >= s.fin OR p.fin = \'0000-00-00 00:00:00\')');
+		$sth->execute();
+		return $sth;
+	}
+
+	public function timelineParcoursList() {
+		$sth = $this->db->prepare(
+			'SELECT p.`id`, `id_stock`, `id_espace`, `debut`, p.`fin`, `quantite_debut`, s.identifiant
+			FROM `parcours` p
+			INNER JOIN `stock` s
+				ON p.id_stock = s.id');
+		$sth->execute();
+		return $sth;
+	}
+
 }
-;

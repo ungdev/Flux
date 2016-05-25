@@ -119,4 +119,22 @@ class Chat extends Model
 		]);
 		return $sth;
 	}
+
+	public function messagesTimeline() {
+
+		$sth = $this->db->prepare(
+			'SELECT e.id as id_espace, c.date, c.message, d.nom  as droit, u2.login as author
+			FROM espace e
+			INNER JOIN utilisateur u
+				ON e.id_utilisateur = u.id
+			INNER JOIN chat c
+				ON c.id_expediteur = u.id OR c.id_destinataire = u.id OR c.id_droit IN (SELECT id_droit FROM liste_droit WHERE id_utilisateur = u.id)
+			LEFT JOIN droit d
+				ON c.id_droit = d.id
+			LEFT JOIN utilisateur u2
+				ON u2.id = c.id_expediteur');
+
+		$sth->execute();
+		return $sth;
+	}
 }
