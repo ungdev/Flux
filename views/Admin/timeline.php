@@ -120,96 +120,86 @@ foreach ($vars['transfers'] as $transfer) {
 $js = [];
 $title = "Chronologie de la soirée";
 ?>
-<div class="row admin chat">
-	<div class="col-md-12">
-		<div class="row espace">
-			<div class="col-md-12">
-
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<div class="pull-right espace-btnbar">
-							<form action="" method="get">
-								<label><input type="checkbox" name="problems" <?= (isset($vars['filter']['problems'])?'checked':'') ?>> Problèmes</label>
-								<label><input type="checkbox" name="flux" <?= (isset($vars['filter']['flux'])?'checked':'') ?>> Flux</label>
-								<label><input type="checkbox" name="coins" <?= (isset($vars['filter']['coins'])?'checked':'') ?>> Jetons</label>
-								<label><input type="checkbox" name="chat" <?= (isset($vars['filter']['chat'])?'checked':'') ?>> Chat</label>
-								<select class="form-control input-sm" name="espace">
-									<option value="0">Pas de filtrage</option>
-									<?php
-										foreach ($vars['espaces'] as $value) {
-											if(!empty($vars['filter']['espace']) && $value['id'] == $vars['filter']['espace']) {
-												echo '<option value="'. $value['id'] .'" selected>'.$value['nom'].'</option>';
-											}
-											else {
-												echo '<option value="'. $value['id'] .'">'.$value['nom'].'</option>';
-											}
-										}
-									?>
-								</select>
-								<input type="submit" value="Filtrer" class="btn btn-sm btn-primary"/>
-								<a href="/admin" class="btn btn-sm btn-danger">Retour</a>
-							</form>
-						</div>
-						<h3 class="panel-title">Chronologie de la soirée</h3>
-					</div>
-					<div class="table-panel-body">
-						<table class="table table-bordered table-hover">
-							<thead>
-								<tr>
-									<th>Nom</th>
-
-									<?php
-										$cur = clone $conf['start'];
-										while($cur < $conf['end']) {
-											echo '<th>'.$cur->format('H:i').'</th>';
-											$cur->add($interval);
-										}
-										?>
-								</tr>
-							</thead>
-							<tbody>
-								<?php foreach ($vars['espaces'] as $espace) {
-									if(empty($vars['filter']['espace']) || $espace['id'] == $vars['filter']['espace']) {
-									?>
-									<tr>
-										<th><a href="/admin#chat-user-<?= $espace['login'] ?>"><?= $espace['nom'] ?></a></th>
-										<?php
-											$cur = clone $conf['start'];
-											$curEnd = (clone $conf['start'])->add($interval);
-											$problemI = 0;
-											while($cur < $conf['end']) {
-												echo '<td title="'.$espace['nom'].' - '.$cur->format('H:i').'">';
-													$ar = $table[$espace['id']][$cur->getTimestamp()] ?? [];
-													ksort($ar);
-													foreach ($ar as $value) {
-														echo $value;
-													}
-												echo '</td>';
-
-												$cur->add($interval);
-												$curEnd->add($interval);
-											}
-									echo '</tr>';
-									}
-								}
-							?>
-							</tbody>
-							<tfoot>
-								<tr>
-									<th>Nom</th>
-									<?php
-										$cur = clone $conf['start'];
-										while($cur < $conf['end']) {
-											echo '<th>'.$cur->format('H:i').'</th>';
-											$cur->add(new DateInterval('PT15M'));
-										}
-										?>
-								</tr>
-							</tfoot>
-						</table>
-					</div>
-				</div>
-			</div>
+<div class="panel panel-default admin chat">
+	<div class="panel-heading">
+		<div class="pull-right espace-btnbar">
+			<form action="" method="get">
+				<label><input type="checkbox" name="problems" <?= (isset($vars['filter']['problems'])?'checked':'') ?>> Problèmes</label>
+				<label><input type="checkbox" name="flux" <?= (isset($vars['filter']['flux'])?'checked':'') ?>> Flux</label>
+				<label><input type="checkbox" name="coins" <?= (isset($vars['filter']['coins'])?'checked':'') ?>> Jetons</label>
+				<label><input type="checkbox" name="chat" <?= (isset($vars['filter']['chat'])?'checked':'') ?>> Chat</label>
+				<select class="form-control input-sm" name="espace">
+					<option value="0">Pas de filtrage</option>
+					<?php
+						foreach ($vars['espaces'] as $value) {
+							if(!empty($vars['filter']['espace']) && $value['id'] == $vars['filter']['espace']) {
+								echo '<option value="'. $value['id'] .'" selected>'.$value['nom'].'</option>';
+							}
+							else {
+								echo '<option value="'. $value['id'] .'">'.$value['nom'].'</option>';
+							}
+						}
+					?>
+				</select>
+				<input type="submit" value="Filtrer" class="btn btn-sm btn-primary"/>
+				<a href="/admin" class="btn btn-sm btn-danger">Retour</a>
+			</form>
 		</div>
+		<h3 class="panel-title">Chronologie de la soirée</h3>
 	</div>
 </div>
+
+<table class="table table-bordered table-hover">
+	<thead>
+		<tr>
+			<th>Nom</th>
+
+			<?php
+				$cur = clone $conf['start'];
+				while($cur < $conf['end']) {
+					echo '<th>'.$cur->format('H:i').'</th>';
+					$cur->add($interval);
+				}
+				?>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach ($vars['espaces'] as $espace) {
+			if(empty($vars['filter']['espace']) || $espace['id'] == $vars['filter']['espace']) {
+			?>
+			<tr>
+				<th><a href="/admin#chat-user-<?= $espace['login'] ?>"><?= $espace['nom'] ?></a></th>
+				<?php
+					$cur = clone $conf['start'];
+					$curEnd = (clone $conf['start'])->add($interval);
+					$problemI = 0;
+					while($cur < $conf['end']) {
+						echo '<td title="'.$espace['nom'].' - '.$cur->format('H:i').'">';
+							$ar = $table[$espace['id']][$cur->getTimestamp()] ?? [];
+							ksort($ar);
+							foreach ($ar as $value) {
+								echo $value;
+							}
+						echo '</td>';
+
+						$cur->add($interval);
+						$curEnd->add($interval);
+					}
+			echo '</tr>';
+			}
+		}
+	?>
+	</tbody>
+	<tfoot>
+		<tr>
+			<th>Nom</th>
+			<?php
+				$cur = clone $conf['start'];
+				while($cur < $conf['end']) {
+					echo '<th>'.$cur->format('H:i').'</th>';
+					$cur->add(new DateInterval('PT15M'));
+				}
+				?>
+		</tr>
+	</tfoot>
+</table>
