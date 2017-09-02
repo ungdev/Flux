@@ -1,4 +1,0 @@
-composer.phar
-/vendor/
-config/config.php
-*.diff
